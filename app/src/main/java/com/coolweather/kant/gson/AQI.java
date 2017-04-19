@@ -1,4 +1,4 @@
-package com.coolweather.android.gson;
+package com.coolweather.kant.gson;
 
 /**
  * Created by kant on 2017/3/24.

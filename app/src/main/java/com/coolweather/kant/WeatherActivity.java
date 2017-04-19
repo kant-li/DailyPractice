@@ -1,4 +1,4 @@
-package com.coolweather.android;
+package com.coolweather.kant;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,13 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.coolweather.android.gson.Forecast;
-import com.coolweather.android.gson.Weather;
-import com.coolweather.android.service.AutoUpdateService;
-import com.coolweather.android.util.HttpUtil;
-import com.coolweather.android.util.Utility;
-
-import org.w3c.dom.Text;
+import com.coolweather.kant.gson.Forecast;
+import com.coolweather.kant.gson.Weather;
+import com.coolweather.kant.service.AutoUpdateService;
+import com.coolweather.kant.util.HttpUtil;
+import com.coolweather.kant.util.Utility;
 
 import java.io.IOException;
 
@@ -43,6 +41,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView degreeText;
     private TextView weatherInfoText;
     private LinearLayout forecastLayout;
+    private TextView aqiClassText;
     private TextView aqiText;
     private TextView pm25Text;
     private TextView comfortText;
@@ -78,6 +77,7 @@ public class WeatherActivity extends AppCompatActivity {
         degreeText = (TextView) findViewById(R.id.degree_text);
         weatherInfoText = (TextView) findViewById(R.id.weather_info_text);
         forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
+        aqiClassText = (TextView) findViewById(R.id.aqi_class_text);
         aqiText = (TextView) findViewById(R.id.aqi_text);
         pm25Text = (TextView) findViewById(R.id.pm25_text);
         comfortText = (TextView) findViewById(R.id.comfort_text);
@@ -205,7 +205,7 @@ public class WeatherActivity extends AppCompatActivity {
         String weatherInfo = weather.now.more.info;
 
         titleCity.setText(cityName);
-        titleUpdateTime.setText(updateTime);
+        titleUpdateTime.setText("更新时间：" + updateTime);
         degreeText.setText(degree);
         weatherInfoText.setText(weatherInfo);
 
@@ -227,6 +227,25 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         if (weather.aqi != null) {
+
+            int aqiIndex = Integer.parseInt(weather.aqi.city.aqi);
+            switch (aqiIndex/50) {
+                case 0 : aqiClassText.setText("优");
+                    break;
+                case 1 : aqiClassText.setText("良");
+                    break;
+                case 2 : aqiClassText.setText("轻度污染");
+                    break;
+                case 3 : aqiClassText.setText("中度污染");
+                    break;
+                case 4 : aqiClassText.setText("重度污染");
+                    break;
+                case 5 : aqiClassText.setText("重度污染");
+                    break;
+                default: aqiClassText.setText("严重污染");
+                    break;
+            }
+
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
         }

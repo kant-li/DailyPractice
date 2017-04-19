@@ -1,4 +1,4 @@
-package com.coolweather.android.service;
+package com.coolweather.kant.service;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -9,11 +9,9 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 
-import com.bumptech.glide.Glide;
-import com.coolweather.android.WeatherActivity;
-import com.coolweather.android.gson.Weather;
-import com.coolweather.android.util.HttpUtil;
-import com.coolweather.android.util.Utility;
+import com.coolweather.kant.gson.Weather;
+import com.coolweather.kant.util.HttpUtil;
+import com.coolweather.kant.util.Utility;
 
 import java.io.IOException;
 
