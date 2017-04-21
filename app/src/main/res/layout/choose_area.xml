@@ -3,12 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF">
+    android:background="#8000">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary">
+        android:background="#ff3030">
 
         <TextView
             android:id="@+id/title_text"
@@ -32,6 +32,10 @@
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:footerDividersEnabled="true"
+        android:divider="#8a8a8a"
+        android:dividerHeight="1px"/>
 
 </LinearLayout>

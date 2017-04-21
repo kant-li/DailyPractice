@@ -12,13 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.coolweather.kant.MainActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name="com.coolweather.kant.WeatherActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.coolweather.kant.WeatherActivity" />
+        <activity android:name="com.coolweather.kant.AboutActivity"/>
 
         <service
             android:name="com.coolweather.kant.service.AutoUpdateService"

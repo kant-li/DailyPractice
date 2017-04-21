@@ -20,6 +20,6 @@
         android:layout_centerInParent="true"
         android:textColor="#fff"
         android:textSize="20sp"
-        android:text="关于"/>
+        android:text="修行"/>
 
 </RelativeLayout>
