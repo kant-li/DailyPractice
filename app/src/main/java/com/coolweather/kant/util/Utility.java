@@ -1,9 +1,11 @@
 package com.coolweather.kant.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.coolweather.kant.db.City;
 import com.coolweather.kant.db.County;
+import com.coolweather.kant.db.Dao;
 import com.coolweather.kant.db.Province;
 import com.coolweather.kant.gson.Weather;
 import com.google.gson.Gson;
@@ -17,6 +19,55 @@ import org.json.JSONObject;
  */
 
 public class Utility {
+
+    /**
+     * 创建新的修行项
+     */
+    public static boolean createDao(String name, String type, String fre, String goal) {
+
+        try {
+            Dao dao = new Dao();
+            dao.setName(name);
+            dao.setDetail(" ");
+            dao.setSort(type);
+            Log.d("create", fre);
+            int fre1 = Integer.valueOf(fre);
+            String fre2 = Integer.toString(fre1);
+            Log.d("create", fre2);
+            dao.setFrequency(fre1);
+            dao.setOn(true);
+            dao.setStatus(" ");
+
+            long todayOrigin = getTodayOrigin();
+
+            String to = Long.toString(todayOrigin);
+            Log.d("create", to);
+            dao.setStart_date(new java.sql.Date(todayOrigin));
+            dao.setEnd_date(new java.sql.Date(0));
+            dao.setRecent(new java.sql.Date(0));
+
+            dao.setCount(0);
+            int goal1 = Integer.valueOf(goal);
+            dao.setGoal(goal1);
+
+            dao.save();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static long getTodayOrigin() {
+
+        long milSecondPerDay = 24 * 60 * 60 * 1000;
+
+        java.util.Date dateNow = new java.util.Date();
+        long date = dateNow.getTime() - (dateNow.getTime()%milSecondPerDay);
+        return date;
+
+    }
 
     /**
      * 解析处理服务器返回的省级数据

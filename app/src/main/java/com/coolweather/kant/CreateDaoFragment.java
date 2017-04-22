@@ -1,43 +1,44 @@
 package com.coolweather.kant;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.coolweather.kant.util.Utility;
 
 /**
  * Created by kant on 2017/3/24.
  */
 
-public class SetDaoFragment extends Fragment {
+public class CreateDaoFragment extends Fragment {
 
     private Button backButton;
-    private Button addButton;
-    private ListView daoListView;
-    private ArrayAdapter<String> adapter;
-    private List<String> daoList = new ArrayList<>();
+    private Button createButton;
+
+    private EditText nameInput;
+    private EditText typeInput;
+    private EditText freInput;
+    private EditText goalInput;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dao_settings, container, false);
+        View view = inflater.inflate(R.layout.dao_create, container, false);
         backButton = (Button) view.findViewById(R.id.back_button);
-        addButton = (Button) view.findViewById(R.id.add_button);
-        daoListView = (ListView) view.findViewById(R.id.dao_list);
-        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_city, daoList);
-        daoListView.setAdapter(adapter);
+        createButton = (Button) view.findViewById(R.id.save_button);
+        nameInput = (EditText) view.findViewById(R.id.name_input);
+        typeInput = (EditText) view.findViewById(R.id.type_input);
+        freInput = (EditText) view.findViewById(R.id.fre_input);
+        goalInput = (EditText) view.findViewById(R.id.goal_input);
         return view;
     }
 
@@ -49,17 +50,43 @@ public class SetDaoFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(v.getWindowToken());
                 getActivity().onBackPressed();
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = nameInput.getText().toString();
+                Log.d("input", name);
+                String type = typeInput.getText().toString();
+                Log.d("input", type);
+                String fre = freInput.getText().toString();
+                Log.d("input", fre);
+                String goal = goalInput.getText().toString();
+                Log.d("input", goal);
 
+                boolean result = false;
+                result = Utility.createDao(name, type, fre, goal);
+                hideKeyboard(v.getWindowToken());
+
+                if (result) {
+                    getActivity().onBackPressed();
+                } else {
+                    Toast.makeText(getActivity(), "保存失败，请注意核对信息", Toast.LENGTH_SHORT).show();
+                    Log.d("false", "toast");
+                }
             }
         });
 
+    }
+
+    private void hideKeyboard(IBinder token) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
 }

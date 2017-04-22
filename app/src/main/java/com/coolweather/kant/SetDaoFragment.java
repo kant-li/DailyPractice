@@ -2,13 +2,18 @@ package com.coolweather.kant;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,21 +25,25 @@ import java.util.List;
  * Created by kant on 2017/3/24.
  */
 
-public class ChooseActivityFragment extends Fragment {
+public class SetDaoFragment extends Fragment {
 
-    private TextView mottoText;
-    private ListView activityListView;
-    private ArrayAdapter<String> adapter;
-    private List<String> activityList = new ArrayList<>();
+    public LinearLayout setLayout;
+    private Button backButton;
+    private Button addButton;
+    private ListView daoListView;
+    private ArrayAdapter<String> daoAdapter;
+    private List<String> daoList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.choose_activity, container, false);
-        mottoText = (TextView) view.findViewById(R.id.motto_text);
-        activityListView = (ListView) view.findViewById(R.id.activity_list);
-        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_city, activityList);
-        activityListView.setAdapter(adapter);
+        View view = inflater.inflate(R.layout.dao_settings, container, false);
+        setLayout = (LinearLayout) view.findViewById(R.id.set_layout);
+        backButton = (Button) view.findViewById(R.id.back_button);
+        addButton = (Button) view.findViewById(R.id.add_button);
+        daoListView = (ListView) view.findViewById(R.id.dao_list);
+        daoAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_city, daoList);
+        daoListView.setAdapter(daoAdapter);
         return view;
     }
 
@@ -43,41 +52,25 @@ public class ChooseActivityFragment extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
-        mottoText.setText("阴晴寒暑\n修行不辍");
-        activityList.add("修行");
-        activityList.add("天气");
-        activityList.add("关于");
-
-        activityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Activity activity = new Activity();
-                Intent intent;
-
-                if (activityList.get(position).equals("修行")) {
-                    activity = new MainActivity();
-                } else if (activityList.get(position).equals("天气")) {
-                    activity = new WeatherActivity();
-                } else if (activityList.get(position).equals("关于")) {
-                    activity = new AboutActivity();
-                }
-
-//                if (getActivity().getClass() == activity.getClass()) {
-//                    activity = getActivity();
-//                    activity.drawerLayout.closeDrawers();
-//                } else {
-//                    intent = new Intent(getActivity(), activity.getClass());
-//                    startActivity(intent);
-//                    getActivity().finish();
-//                }
-
-                intent = new Intent(getActivity(), activity.getClass());
-                startActivity(intent);
-                getActivity().finish();
+            public void onClick(View v) {
+                getActivity().onBackPressed();
             }
-
         });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateDaoFragment crFragment = new CreateDaoFragment();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.add(R.id.drawer_layout, crFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
     }
 
 }
