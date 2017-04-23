@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.coolweather.kant.db.Dao;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +37,10 @@ public class SetDaoFragment extends Fragment {
     private Button addButton;
     private ListView daoListView;
     private ArrayAdapter<String> daoAdapter;
-    private List<String> daoList = new ArrayList<>();
+    private List<String> dataList = new ArrayList<>();
+    private List<Dao> daoList;
+
+    public SwipeRefreshLayout swipeRefresh;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +50,11 @@ public class SetDaoFragment extends Fragment {
         backButton = (Button) view.findViewById(R.id.back_button);
         addButton = (Button) view.findViewById(R.id.add_button);
         daoListView = (ListView) view.findViewById(R.id.dao_list);
-        daoAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_city, daoList);
+
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        swipeRefresh.setColorSchemeResources(R.color.colorTopic);
+
+        daoAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_city, dataList);
         daoListView.setAdapter(daoAdapter);
         return view;
     }
@@ -52,6 +64,7 @@ public class SetDaoFragment extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
+        //返回按钮
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +72,7 @@ public class SetDaoFragment extends Fragment {
             }
         });
 
+        //新增按钮
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +85,37 @@ public class SetDaoFragment extends Fragment {
             }
         });
 
+        //下拉刷新
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshDaoList();
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+
+    }
+
+    @Override
+    public void onResume() {
+        refreshDaoList();
+        Log.d("resume", "executed");
+        super.onResume();
+    }
+
+    public void refreshDaoList() {
+        //获得数据库中的数据
+        if (dataList != null) {
+            Log.d("refresh", "clear");
+            dataList.clear();
+        }
+        daoList = DataSupport.findAll(Dao.class);
+        for (Dao dao : daoList) {
+            Log.d("refresh", "add");
+            dataList.add(dao.getName());
+        }
+        daoAdapter.notifyDataSetChanged();
+        daoListView.setSelection(0);
     }
 
 }

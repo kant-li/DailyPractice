@@ -52,6 +52,7 @@ public class CreateDaoFragment extends Fragment {
             public void onClick(View v) {
                 hideKeyboard(v.getWindowToken());
                 getActivity().onBackPressed();
+
             }
         });
 
@@ -59,13 +60,9 @@ public class CreateDaoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String name = nameInput.getText().toString();
-                Log.d("input", name);
                 String type = typeInput.getText().toString();
-                Log.d("input", type);
                 String fre = freInput.getText().toString();
-                Log.d("input", fre);
                 String goal = goalInput.getText().toString();
-                Log.d("input", goal);
 
                 boolean result = false;
                 result = Utility.createDao(name, type, fre, goal);
@@ -75,7 +72,6 @@ public class CreateDaoFragment extends Fragment {
                     getActivity().onBackPressed();
                 } else {
                     Toast.makeText(getActivity(), "保存失败，请注意核对信息", Toast.LENGTH_SHORT).show();
-                    Log.d("false", "toast");
                 }
             }
         });
