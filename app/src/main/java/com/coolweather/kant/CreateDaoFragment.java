@@ -13,7 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.coolweather.kant.db.Dao;
 import com.coolweather.kant.util.Utility;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kant on 2017/3/24.
@@ -64,14 +70,24 @@ public class CreateDaoFragment extends Fragment {
                 String fre = freInput.getText().toString();
                 String goal = goalInput.getText().toString();
 
-                boolean result = false;
-                result = Utility.createDao(name, type, fre, goal);
-                hideKeyboard(v.getWindowToken());
+                ArrayList<String> nameList = new ArrayList<String>();
+                List<Dao> daoList = DataSupport.select("name").find(Dao.class);
+                for (Dao dao : daoList) {
+                    nameList.add(dao.getName());
+                }
 
-                if (result) {
-                    getActivity().onBackPressed();
+                if (nameList.contains(name)) {
+                    Toast.makeText(getActivity(), "命名重复，请注意核对信息", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "保存失败，请注意核对信息", Toast.LENGTH_SHORT).show();
+                    boolean result = false;
+                    result = Utility.createDao(name, type, fre, goal);
+                    hideKeyboard(v.getWindowToken());
+
+                    if (result) {
+                        getActivity().onBackPressed();
+                    } else {
+                        Toast.makeText(getActivity(), "保存失败，请注意核对信息", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

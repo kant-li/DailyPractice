@@ -20,9 +20,9 @@ public class Dao extends DataSupport {
     private boolean on;
     private String status;
 
-    private Date start_date;
-    private Date end_date;
-    private Date recent;
+    private long start_date;
+    private long end_date;
+    private long recent;
 
     private int count;
     private int goal;
@@ -69,7 +69,7 @@ public class Dao extends DataSupport {
         this.frequency = frequency;
     }
 
-    public boolean getOn() {
+    public boolean isOn() {
         return on;
     }
 
@@ -85,27 +85,27 @@ public class Dao extends DataSupport {
         this.status = status;
     }
 
-    public Date getStart_date() {
+    public long getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(long start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public long getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(long end_date) {
         this.end_date = end_date;
     }
 
-    public Date getRecent() {
+    public long getRecent() {
         return recent;
     }
 
-    public void setRecent(Date recent) {
+    public void setRecent(long recent) {
         this.recent = recent;
     }
 

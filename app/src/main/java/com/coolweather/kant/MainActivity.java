@@ -2,18 +2,23 @@ package com.coolweather.kant;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.coolweather.kant.db.Dao;
+import com.coolweather.kant.util.Utility;
 
 import org.litepal.crud.DataSupport;
 
@@ -100,9 +105,30 @@ public class MainActivity extends AppCompatActivity {
         for (Dao dao : daoListNow) {
 
             View view = LayoutInflater.from(this).inflate(R.layout.dao_item, nowLayout, false);
-            TextView nameText = (TextView) view.findViewById(R.id.name_text);
+            CheckBox itemCheck = (CheckBox) view.findViewById(R.id.item_check);
 
-            nameText.setText(dao.getName());
+            itemCheck.setText(dao.getName());
+
+            itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    try {
+
+                        Dao dao = (DataSupport.where("name = ?", buttonView.getText().toString()).find(Dao.class)).get(0);
+                        dao.setRecent(Utility.getTodayCount());
+
+                        if (dao.save()) {
+                            Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
             nowLayout.addView(view);
         }
@@ -119,9 +145,29 @@ public class MainActivity extends AppCompatActivity {
         for (Dao dao : daoListHold) {
 
             View view = LayoutInflater.from(this).inflate(R.layout.dao_item, holdLayout, false);
-            TextView nameText = (TextView) view.findViewById(R.id.name_text);
+            CheckBox itemCheck = (CheckBox) view.findViewById(R.id.item_check);
 
-            nameText.setText(dao.getName());
+            itemCheck.setText(dao.getName());
+
+            itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    try {
+
+                        Dao dao = (DataSupport.where("name = ?", buttonView.getText().toString()).find(Dao.class)).get(0);
+                        dao.setRecent(Utility.getTodayCount());
+
+                        if (dao.save()) {
+                            Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
             holdLayout.addView(view);
         }

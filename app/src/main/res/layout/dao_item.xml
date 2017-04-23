@@ -3,15 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp">
+    android:layout_margin="1dp">
 
-    <TextView
-        android:id="@+id/name_text"
-        android:layout_width="0dp"
+    <CheckBox
+        android:id="@+id/item_check"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="2"
-        android:textColor="#fff"/>
-
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:background="@color/colorBox"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"/>
 
 </LinearLayout>

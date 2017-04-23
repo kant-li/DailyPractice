@@ -28,7 +28,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.coolweather.kant.AboutActivity"/>
+        <activity android:name="com.coolweather.kant.AboutActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
 
         <service
             android:name="com.coolweather.kant.service.AutoUpdateService"

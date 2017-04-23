@@ -36,11 +36,11 @@ public class Utility {
             dao.setOn(true);
             dao.setStatus(" ");
 
-            long todayOrigin = getTodayOrigin();
+            long todayCount = getTodayCount();
 
-            dao.setStart_date(new java.sql.Date(todayOrigin));
-            dao.setEnd_date(new java.sql.Date(0));
-            dao.setRecent(new java.sql.Date(0));
+            dao.setStart_date(todayCount);
+            dao.setEnd_date(0);
+            dao.setRecent(0);
 
             dao.setCount(0);
             int goal1 = Integer.valueOf(goal);
@@ -55,13 +55,13 @@ public class Utility {
         }
     }
 
-    public static long getTodayOrigin() {
+    public final static long getTodayCount() {
 
         long milSecondPerDay = 24 * 60 * 60 * 1000;
 
         java.util.Date dateNow = new java.util.Date();
-        long date = dateNow.getTime() - (dateNow.getTime()%milSecondPerDay);
-        return date;
+        long count = (dateNow.getTime()/milSecondPerDay);
+        return count;
 
     }
 

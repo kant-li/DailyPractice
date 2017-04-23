@@ -6,4 +6,5 @@
     <color name="colorTopic">#FF3030</color>
     <color name="colorBack">#000000</color>
     <color name="colorText">#FFF</color>
+    <color name="colorBox">#808b96</color>
 </resources>

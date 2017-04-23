@@ -16,35 +16,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <ScrollView
-                android:id="@+id/weather_layout"
+            <include layout="@layout/title" />
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/weather_refresh"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"
-                android:overScrollMode="never">
+                android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fitsSystemWindows="true">
+                    <ScrollView
+                        android:id="@+id/weather_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never"
+                        android:scrollbars="none">
 
-                    <include layout="@layout/title" />
-                    <include layout="@layout/now" />
-                    <include layout="@layout/forecast" />
-                    <include layout="@layout/aqi" />
-                    <include layout="@layout/suggestion" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fitsSystemWindows="true"
+                            android:orientation="vertical">
 
-                </LinearLayout>
+                            <include layout="@layout/now" />
 
-            </ScrollView>
+                            <include layout="@layout/forecast" />
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+                            <include layout="@layout/aqi" />
+
+                            <include layout="@layout/suggestion" />
+
+                        </LinearLayout>
+
+                    </ScrollView>
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+        </LinearLayout>
 
         <fragment
             android:id="@+id/choose_activity_fragment"
