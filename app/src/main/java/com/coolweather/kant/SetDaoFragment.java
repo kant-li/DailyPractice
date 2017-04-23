@@ -35,10 +35,12 @@ public class SetDaoFragment extends Fragment {
     public LinearLayout setLayout;
     private Button backButton;
     private Button addButton;
-    private ListView daoListView;
-    private ArrayAdapter<String> daoAdapter;
-    private List<String> dataList = new ArrayList<>();
-    private List<Dao> daoList;
+
+    private LinearLayout onLayout;
+    private List<Dao> daoListOn;
+
+    private LinearLayout offLayout;
+    private List<Dao> daoListOff;
 
     public SwipeRefreshLayout swipeRefresh;
 
@@ -49,13 +51,13 @@ public class SetDaoFragment extends Fragment {
         setLayout = (LinearLayout) view.findViewById(R.id.set_layout);
         backButton = (Button) view.findViewById(R.id.back_button);
         addButton = (Button) view.findViewById(R.id.add_button);
-        daoListView = (ListView) view.findViewById(R.id.dao_list);
+
+        onLayout = (LinearLayout) view.findViewById(R.id.on_layout);
+        offLayout = (LinearLayout) view.findViewById(R.id.off_layout);
 
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorTopic);
 
-        daoAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_city, dataList);
-        daoListView.setAdapter(daoAdapter);
         return view;
     }
 
@@ -89,7 +91,8 @@ public class SetDaoFragment extends Fragment {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshDaoList();
+                refreshDaoListOn();
+                refreshDaoListOff();
                 swipeRefresh.setRefreshing(false);
             }
         });
@@ -98,21 +101,45 @@ public class SetDaoFragment extends Fragment {
 
     @Override
     public void onResume() {
-        refreshDaoList();
+        refreshDaoListOn();
+        refreshDaoListOff();
         super.onResume();
     }
 
-    public void refreshDaoList() {
+    public void refreshDaoListOn() {
+
         //获得数据库中的数据
-        if (dataList != null) {
-            dataList.clear();
+        onLayout.removeAllViews();
+        daoListOn = DataSupport.findAll(Dao.class);
+
+        for (Dao dao : daoListOn) {
+
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.dao_set_item, onLayout, false);
+            TextView nameText = (TextView) view.findViewById(R.id.name_text);
+
+            nameText.setText(dao.getName());
+
+            onLayout.addView(view);
         }
-        daoList = DataSupport.findAll(Dao.class);
-        for (Dao dao : daoList) {
-            dataList.add(dao.getName());
+
+    }
+
+    public void refreshDaoListOff() {
+
+        //获得数据库中的数据
+        offLayout.removeAllViews();
+        daoListOff = DataSupport.findAll(Dao.class);
+
+        for (Dao dao : daoListOff) {
+
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.dao_set_item, offLayout, false);
+            TextView nameText = (TextView) view.findViewById(R.id.name_text);
+
+            nameText.setText(dao.getName());
+
+            offLayout.addView(view);
         }
-        daoAdapter.notifyDataSetChanged();
-        daoListView.setSelection(0);
+
     }
 
 }
