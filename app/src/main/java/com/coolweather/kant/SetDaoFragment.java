@@ -99,19 +99,16 @@ public class SetDaoFragment extends Fragment {
     @Override
     public void onResume() {
         refreshDaoList();
-        Log.d("resume", "executed");
         super.onResume();
     }
 
     public void refreshDaoList() {
         //获得数据库中的数据
         if (dataList != null) {
-            Log.d("refresh", "clear");
             dataList.clear();
         }
         daoList = DataSupport.findAll(Dao.class);
         for (Dao dao : daoList) {
-            Log.d("refresh", "add");
             dataList.add(dao.getName());
         }
         daoAdapter.notifyDataSetChanged();

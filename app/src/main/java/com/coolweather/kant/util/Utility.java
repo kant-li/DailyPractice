@@ -30,18 +30,14 @@ public class Utility {
             dao.setName(name);
             dao.setDetail(" ");
             dao.setSort(type);
-            Log.d("create", fre);
             int fre1 = Integer.valueOf(fre);
             String fre2 = Integer.toString(fre1);
-            Log.d("create", fre2);
             dao.setFrequency(fre1);
             dao.setOn(true);
             dao.setStatus(" ");
 
             long todayOrigin = getTodayOrigin();
 
-            String to = Long.toString(todayOrigin);
-            Log.d("create", to);
             dao.setStart_date(new java.sql.Date(todayOrigin));
             dao.setEnd_date(new java.sql.Date(0));
             dao.setRecent(new java.sql.Date(0));

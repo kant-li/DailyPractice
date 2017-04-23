@@ -24,10 +24,55 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ListView
-                    android:id="@+id/dao_list"
+                <ScrollView
+                    android:id="@+id/data_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:overScrollMode="never">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="20dp"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorText"
+                            android:text="今日事件："/>
+
+                        <LinearLayout
+                            android:id="@+id/now_layout"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="20dp"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorText"
+                            android:text="接下来："/>
+
+                        <LinearLayout
+                            android:id="@+id/hold_layout"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </ScrollView>
 
             </android.support.v4.widget.SwipeRefreshLayout>
 
