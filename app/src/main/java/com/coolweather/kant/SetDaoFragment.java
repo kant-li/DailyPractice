@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,7 +17,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.coolweather.kant.db.Dao;
 
@@ -24,7 +27,6 @@ import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Created by kant on 2017/3/24.
@@ -116,8 +118,38 @@ public class SetDaoFragment extends Fragment {
 
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.dao_set_item, onLayout, false);
             TextView nameText = (TextView) view.findViewById(R.id.name_text);
+            final Button setButton = (Button) view.findViewById(R.id.set_button);
 
             nameText.setText(dao.getName());
+
+            setButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final PopupMenu popup = new PopupMenu(getActivity(), setButton);
+                    popup.getMenuInflater().inflate(R.menu.item_set, popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.shutDown_item:
+                                    Toast.makeText(getActivity(), "shutDown", Toast.LENGTH_SHORT).show();
+                                    popup.dismiss();
+                                    break;
+                                case R.id.change_item:
+                                    Toast.makeText(getActivity(), "change", Toast.LENGTH_SHORT).show();
+                                    popup.dismiss();
+                                    break;
+                                case R.id.delete_item:
+                                    Toast.makeText(getActivity(), "delete", Toast.LENGTH_SHORT).show();
+                                    popup.dismiss();
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    popup.show();
+                }
+            });
 
             onLayout.addView(view);
         }
@@ -134,8 +166,34 @@ public class SetDaoFragment extends Fragment {
 
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.dao_set_item, offLayout, false);
             TextView nameText = (TextView) view.findViewById(R.id.name_text);
+            final Button setButton = (Button) view.findViewById(R.id.set_button);
 
             nameText.setText(dao.getName());
+
+            setButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final PopupMenu popup = new PopupMenu(getActivity(), setButton);
+                    popup.getMenuInflater().inflate(R.menu.hold_item_set, popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.open_item:
+                                    Toast.makeText(getActivity(), "open", Toast.LENGTH_SHORT).show();
+                                    popup.dismiss();
+                                    break;
+                                case R.id.delete_item:
+                                    Toast.makeText(getActivity(), "delete again", Toast.LENGTH_SHORT).show();
+                                    popup.dismiss();
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    popup.show();
+                }
+            });
 
             offLayout.addView(view);
         }
