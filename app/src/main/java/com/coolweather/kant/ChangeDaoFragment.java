@@ -37,7 +37,7 @@ public class ChangeDaoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dao_create, container, false);
+        View view = inflater.inflate(R.layout.dao_change, container, false);
         backButton = (Button) view.findViewById(R.id.back_button);
         createButton = (Button) view.findViewById(R.id.save_button);
         nameInput = (EditText) view.findViewById(R.id.name_input);
