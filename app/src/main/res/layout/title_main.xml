@@ -20,7 +20,7 @@
         android:layout_centerInParent="true"
         android:textColor="#fff"
         android:textSize="20sp"
-        android:text="修行"/>
+        android:text="事项"/>
 
     <Button
         android:id="@+id/set_button"

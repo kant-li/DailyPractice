@@ -45,7 +45,7 @@ public class ChooseActivityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mottoText.setText("阴晴寒暑\n修行不辍");
-        activityList.add("修行");
+        activityList.add("事项");
         activityList.add("天气");
         activityList.add("关于");
 
@@ -56,7 +56,7 @@ public class ChooseActivityFragment extends Fragment {
                 Activity activity = new Activity();
                 Intent intent;
 
-                if (activityList.get(position).equals("修行")) {
+                if (activityList.get(position).equals("事项")) {
                     activity = new MainActivity();
                 } else if (activityList.get(position).equals("天气")) {
                     activity = new WeatherActivity();
