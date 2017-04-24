@@ -1,8 +1,12 @@
 package com.coolweather.kant;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -43,6 +47,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //如果是第一次登陆
+        SharedPreferences sp = getSharedPreferences("isFirstIn", Activity.MODE_PRIVATE);
+        boolean isFirstIn = sp.getBoolean("isFirstIn", true);
+
+        if(isFirstIn) {
+            //第一次打开应用
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("isFirstIn", false);
+            editor.commit();
+
+            //创建数据库初始数据
+            Utility.createDao("每天早上7点起床","生活","1","30");
+            Utility.createDao("每天睡觉前刷牙","生活","1","30");
+            Utility.createDao("每天读书1小时","学习","1","30");
+            Utility.createDao("每3天跑步3公里","运动","3","10");
+
+        } else {
+
+        }
 
         setContentView(R.layout.activity_main);
 
