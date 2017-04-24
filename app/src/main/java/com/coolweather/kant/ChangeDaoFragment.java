@@ -79,16 +79,32 @@ public class ChangeDaoFragment extends Fragment {
                 String fre = freInput.getText().toString();
                 String goal = goalInput.getText().toString();
 
-                Dao dao = new Dao();
-                dao.setName(name);
-                dao.setSort(type);
-                dao.setFrequency(Integer.valueOf(fre));
-                dao.setGoal(Integer.valueOf(goal));
-                dao.updateAll("name = ?", name1);
+                //检查命名重复问题
+                ArrayList<String> nameList = new ArrayList<String>();
+                List<Dao> daoList = DataSupport.select("name").find(Dao.class);
+                for (Dao dao : daoList) {
+                    nameList.add(dao.getName());
+                }
 
-                hideKeyboard(v.getWindowToken());
-                Toast.makeText(getActivity(), "修改成功，请下拉刷新", Toast.LENGTH_SHORT).show();
-                getActivity().onBackPressed();
+                //去掉本体
+                nameList.remove(name1);
+
+                if (nameList.contains(name)) {
+                    Toast.makeText(getActivity(), "事项已存在，请注意核对", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    //保存修改
+                    Dao dao = new Dao();
+                    dao.setName(name);
+                    dao.setSort(type);
+                    dao.setFrequency(Integer.valueOf(fre));
+                    dao.setGoal(Integer.valueOf(goal));
+                    dao.updateAll("name = ?", name1);
+
+                    hideKeyboard(v.getWindowToken());
+                    Toast.makeText(getActivity(), "修改成功，请下拉刷新", Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
             }
         });
 
