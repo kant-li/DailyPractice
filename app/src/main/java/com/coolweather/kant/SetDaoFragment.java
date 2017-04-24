@@ -143,8 +143,29 @@ public class SetDaoFragment extends Fragment {
                                     popup.dismiss();
                                     break;
                                 case R.id.change_item:
-                                    Toast.makeText(getActivity(), "该功能还在路上...", Toast.LENGTH_SHORT).show();
+
                                     popup.dismiss();
+
+                                    Dao dao1 = (DataSupport.where("name = ?", name).find(Dao.class)).get(0);
+                                    String name1 = dao1.getName();
+                                    String type1 = dao1.getSort();
+                                    int fre1 = dao1.getFrequency();
+                                    int goal1 = dao1.getGoal();
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("name", name1);
+                                    bundle.putString("type", type1);
+                                    bundle.putInt("fre", fre1);
+                                    bundle.putInt("goal", goal1);
+
+                                    ChangeDaoFragment cg = new ChangeDaoFragment();
+                                    cg.setArguments(bundle);
+                                    FragmentManager fm = getFragmentManager();
+                                    FragmentTransaction ft = fm.beginTransaction();
+                                    ft.add(R.id.drawer_layout, cg);
+                                    ft.addToBackStack(null);
+                                    ft.commit();
+
                                     break;
                                 case R.id.delete_item:
                                     DataSupport.deleteAll(Dao.class, "name = ?", name);

@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ import java.util.List;
  * Created by kant on 2017/3/24.
  */
 
-public class CreateDaoFragment extends Fragment {
+public class ChangeDaoFragment extends Fragment {
 
     private Button backButton;
     private Button createButton;
@@ -53,6 +52,16 @@ public class CreateDaoFragment extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
+        final String name1 = getArguments().getString("name");
+        String type1 = getArguments().getString("type");
+        String fre1 = Integer.toString(getArguments().getInt("fre"));
+        String goal1 = Integer.toString(getArguments().getInt("goal"));
+
+        nameInput.setText(name1);
+        typeInput.setText(type1);
+        freInput.setText(fre1);
+        goalInput.setText(goal1);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,26 +79,16 @@ public class CreateDaoFragment extends Fragment {
                 String fre = freInput.getText().toString();
                 String goal = goalInput.getText().toString();
 
-                ArrayList<String> nameList = new ArrayList<String>();
-                List<Dao> daoList = DataSupport.select("name").find(Dao.class);
-                for (Dao dao : daoList) {
-                    nameList.add(dao.getName());
-                }
+                Dao dao = new Dao();
+                dao.setName(name);
+                dao.setSort(type);
+                dao.setFrequency(Integer.valueOf(fre));
+                dao.setGoal(Integer.valueOf(goal));
+                dao.updateAll("name = ?", name1);
 
-                if (nameList.contains(name)) {
-                    Toast.makeText(getActivity(), "命名重复，请注意核对信息", Toast.LENGTH_SHORT).show();
-                } else {
-                    boolean result = false;
-                    result = Utility.createDao(name, type, fre, goal);
-                    hideKeyboard(v.getWindowToken());
-
-                    if (result) {
-                        getActivity().onBackPressed();
-                        Toast.makeText(getActivity(), "新建成功，请下拉刷新", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), "保存失败，请注意核对信息", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                hideKeyboard(v.getWindowToken());
+                Toast.makeText(getActivity(), "修改成功，请下拉刷新", Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
             }
         });
 
