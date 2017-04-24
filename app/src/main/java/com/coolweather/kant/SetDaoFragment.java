@@ -1,22 +1,16 @@
 package com.coolweather.kant;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +20,6 @@ import com.coolweather.kant.util.Utility;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -113,7 +106,7 @@ public class SetDaoFragment extends Fragment {
 
         //获得数据库中的数据
         onLayout.removeAllViews();
-        daoListOn = DataSupport.findAll(Dao.class);
+        daoListOn = DataSupport.select("name").where("on = ?", "1").find(Dao.class);
 
         for (Dao dao : daoListOn) {
 
@@ -141,6 +134,10 @@ public class SetDaoFragment extends Fragment {
                                     dao.updateAll("name = ?", name);
                                     Toast.makeText(getActivity(), name + "已关闭", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
+
+                                    //更新界面
+                                    refreshDaoListOn();
+                                    refreshDaoListOff();
                                     break;
                                 case R.id.change_item:
 
@@ -171,6 +168,9 @@ public class SetDaoFragment extends Fragment {
                                     DataSupport.deleteAll(Dao.class, "name = ?", name);
                                     Toast.makeText(getActivity(), name + "已删除", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
+
+                                    //更新界面
+                                    refreshDaoListOn();
                                     break;
                             }
                             return false;
@@ -189,7 +189,7 @@ public class SetDaoFragment extends Fragment {
 
         //获得数据库中的数据
         offLayout.removeAllViews();
-        daoListOff = DataSupport.findAll(Dao.class);
+        daoListOff = DataSupport.select("name").where("on = ?", "2").find(Dao.class);
 
         for (Dao dao : daoListOff) {
 
@@ -216,11 +216,18 @@ public class SetDaoFragment extends Fragment {
                                     dao.updateAll("name = ?", name);
                                     Toast.makeText(getActivity(), name + "已开启", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
+
+                                    //更新界面
+                                    refreshDaoListOn();
+                                    refreshDaoListOff();
                                     break;
                                 case R.id.delete_item:
                                     DataSupport.deleteAll(Dao.class, "name = ?", name);
                                     Toast.makeText(getActivity(), name + "已删除", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
+
+                                    //更新界面
+                                    refreshDaoListOff();
                                     break;
                             }
                             return false;

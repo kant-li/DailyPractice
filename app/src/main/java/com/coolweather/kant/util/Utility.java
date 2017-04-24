@@ -13,6 +13,9 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
+
+import java.util.List;
 
 /**
  * Created by kant on 2017/3/23.
@@ -63,6 +66,42 @@ public class Utility {
         long count = (dateNow.getTime()/milSecondPerDay);
         return count;
 
+    }
+
+    public static void refreshDaoStatus() {
+
+       //获得需要更新状态的事项，已关闭事项不更新
+
+        List<Dao> daoList= DataSupport.where("on = ?", "1").find(Dao.class);
+
+       //逐个更新状态
+
+       for (Dao dao : daoList) {
+
+           //这里统一使用系统开始日期到目标日期的天数间隔进行计算
+           long today = getTodayCount();
+           long recent = dao.getRecent();
+           long startDate = dao.getStart_date();
+           int fre = dao.getFrequency();
+           long newRoundStartDate = today - ((today - startDate)%fre);  //新一轮事项的开始日期
+           long newRoundEndDate = newRoundStartDate + fre - 1;              //新一轮事项的结束日期
+
+           //如果最近一次执行事项比新一轮开始事件早，就需要执行，否则为已完成事项
+           if (recent < newRoundStartDate) {
+
+           //如果今天是新一轮事项的结束日期，为今天必须完成的事项，否则为接下来完成的事项
+               if (today < newRoundEndDate) {
+                   dao.setStatus("hold");
+               } else {
+                   dao.setStatus("now");
+               }
+
+           } else {
+               dao.setStatus("done");
+           }
+
+           dao.save();
+       }
     }
 
     /**

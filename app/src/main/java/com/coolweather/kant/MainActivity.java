@@ -99,8 +99,12 @@ public class MainActivity extends AppCompatActivity {
     public void refreshNowList() {
 
         //获得数据库中的数据
+
+        //先更新事项状态
+        Utility.refreshDaoStatus();
         nowLayout.removeAllViews();
-        daoListNow = DataSupport.findAll(Dao.class);
+//        daoListNow = DataSupport.findAll(Dao.class);
+        daoListNow = DataSupport.select("name").where("status = ?", "now").find(Dao.class);
 
         for (Dao dao : daoListNow) {
 
@@ -119,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (dao.save()) {
                             Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
+                            refreshNowList();
                         } else {
                             Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
                         }
@@ -139,8 +144,12 @@ public class MainActivity extends AppCompatActivity {
     public void refreshHoldList() {
 
         //获得数据库中的数据
+
+        //先更新事项状态
+        Utility.refreshDaoStatus();
         holdLayout.removeAllViews();
-        daoListHold = DataSupport.findAll(Dao.class);
+//        daoListHold = DataSupport.findAll(Dao.class);
+        daoListHold = DataSupport.select("name").where("status = ?", "hold").find(Dao.class);
 
         for (Dao dao : daoListHold) {
 
@@ -159,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (dao.save()) {
                             Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
+                            refreshHoldList();
                         } else {
                             Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
                         }

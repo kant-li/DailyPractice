@@ -84,8 +84,8 @@ public class CreateDaoFragment extends Fragment {
                     hideKeyboard(v.getWindowToken());
 
                     if (result) {
-                        getActivity().onBackPressed();
                         Toast.makeText(getActivity(), "新建成功，请下拉刷新", Toast.LENGTH_SHORT).show();
+                        getActivity().onBackPressed();
                     } else {
                         Toast.makeText(getActivity(), "保存失败，请注意核对信息", Toast.LENGTH_SHORT).show();
                     }
