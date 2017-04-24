@@ -22,13 +22,14 @@
         android:textSize="20sp"
         android:text="事项管理"/>
 
-    <Button
-        android:id="@+id/add_button"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/ic_add"/>
+    <!--改变新增事项入口，此处暂时关闭-->
+    <!--<Button-->
+        <!--android:id="@+id/add_button"-->
+        <!--android:layout_width="20dp"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:background="@drawable/ic_add"/>-->
 
 </RelativeLayout>

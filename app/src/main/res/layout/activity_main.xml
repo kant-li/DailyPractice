@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,7 +15,7 @@
             android:id="@+id/dao_layout"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true">
 
             <include layout="@layout/title_main" />
@@ -24,57 +25,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ScrollView
-                    android:id="@+id/data_layout"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:overScrollMode="never">
+                    android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:orientation="vertical"
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/float_add_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@drawable/ic_add"
+                        app:elevation="8dp" />
+
+                    <ScrollView
+                        android:id="@+id/data_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:textSize="18sp"
-                            android:textColor="@color/colorText"
-                            android:text="今日事件："/>
+                        android:scrollbars="none"
+                        android:overScrollMode="never">
 
                         <LinearLayout
-                            android:id="@+id/now_layout"
                             android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:textSize="18sp"
+                                android:textColor="@color/colorText"
+                                android:text="今日事件："/>
+
+                            <LinearLayout
+                                android:id="@+id/now_layout"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:textSize="18sp"
+                                android:textColor="@color/colorText"
+                                android:text="接下来："/>
+
+                            <LinearLayout
+                                android:id="@+id/hold_layout"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:textSize="18sp"
-                            android:textColor="@color/colorText"
-                            android:text="接下来："/>
+                    </ScrollView>
 
-                        <LinearLayout
-                            android:id="@+id/hold_layout"
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </ScrollView>
+                </RelativeLayout>
 
             </android.support.v4.widget.SwipeRefreshLayout>
 

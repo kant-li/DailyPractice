@@ -30,7 +30,7 @@ public class SetDaoFragment extends Fragment {
 
     public LinearLayout setLayout;
     private Button backButton;
-    private Button addButton;
+//    private Button addButton;
 
     private LinearLayout onLayout;
     private List<Dao> daoListOn;
@@ -46,7 +46,7 @@ public class SetDaoFragment extends Fragment {
         View view = inflater.inflate(R.layout.dao_settings, container, false);
         setLayout = (LinearLayout) view.findViewById(R.id.set_layout);
         backButton = (Button) view.findViewById(R.id.back_button);
-        addButton = (Button) view.findViewById(R.id.add_button);
+//        addButton = (Button) view.findViewById(R.id.add_button);
 
         onLayout = (LinearLayout) view.findViewById(R.id.on_layout);
         offLayout = (LinearLayout) view.findViewById(R.id.off_layout);
@@ -71,17 +71,18 @@ public class SetDaoFragment extends Fragment {
         });
 
         //新增按钮
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CreateDaoFragment crFragment = new CreateDaoFragment();
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.add(R.id.drawer_layout, crFragment);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
+        //改变入口到主页，这边暂时不用
+//        addButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                CreateDaoFragment crFragment = new CreateDaoFragment();
+//                FragmentManager fm = getFragmentManager();
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.add(R.id.drawer_layout, crFragment);
+//                ft.addToBackStack(null);
+//                ft.commit();
+//            }
+//        });
 
         //下拉刷新
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

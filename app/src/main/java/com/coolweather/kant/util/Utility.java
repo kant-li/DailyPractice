@@ -70,37 +70,45 @@ public class Utility {
 
     public static void refreshDaoStatus() {
 
-       //获得需要更新状态的事项，已关闭事项不更新
+       //获得需要更新状态的事项，已关闭事项不更新——这个想法是错的！状态都要更新！
 
-        List<Dao> daoList= DataSupport.where("on = ?", "1").find(Dao.class);
+       List<Dao> daoList= Dao.findAll(Dao.class);
+               //DataSupport.where("on = ?", "1").find(Dao.class);
 
        //逐个更新状态
 
        for (Dao dao : daoList) {
 
-           //这里统一使用系统开始日期到目标日期的天数间隔进行计算
-           long today = getTodayCount();
-           long recent = dao.getRecent();
-           long startDate = dao.getStart_date();
-           int fre = dao.getFrequency();
-           long newRoundStartDate = today - ((today - startDate)%fre);  //新一轮事项的开始日期
-           long newRoundEndDate = newRoundStartDate + fre - 1;              //新一轮事项的结束日期
+           //首先判断是否开启，如果是关闭状态，直接设置为关闭
+           if (dao.getOn() == 1) {
 
-           //如果最近一次执行事项比新一轮开始事件早，就需要执行，否则为已完成事项
-           if (recent < newRoundStartDate) {
+               //这里统一使用系统开始日期到目标日期的天数间隔进行计算
+               long today = getTodayCount();
+               long recent = dao.getRecent();
+               long startDate = dao.getStart_date();
+               int fre = dao.getFrequency();
+               long newRoundStartDate = today - ((today - startDate) % fre);  //新一轮事项的开始日期
+               long newRoundEndDate = newRoundStartDate + fre - 1;              //新一轮事项的结束日期
 
-           //如果今天是新一轮事项的结束日期，为今天必须完成的事项，否则为接下来完成的事项
-               if (today < newRoundEndDate) {
-                   dao.setStatus("hold");
+               //如果最近一次执行事项比新一轮开始事件早，就需要执行，否则为已完成事项
+               if (recent < newRoundStartDate) {
+
+                   //如果今天是新一轮事项的结束日期，为今天必须完成的事项，否则为接下来完成的事项
+                   if (today < newRoundEndDate) {
+                       dao.setStatus("hold");
+                   } else {
+                       dao.setStatus("now");
+                   }
+
                } else {
-                   dao.setStatus("now");
+                   dao.setStatus("done");
                }
 
+               dao.save();
            } else {
-               dao.setStatus("done");
+               dao.setStatus("close");
+               dao.save();
            }
-
-           dao.save();
        }
     }
 

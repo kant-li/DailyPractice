@@ -3,6 +3,7 @@ package com.coolweather.kant;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     private Button navButton;
     private Button setButton;
+    private FloatingActionButton floatAddButton;
 
     private LinearLayout nowLayout;
     private List<Dao> daoListNow;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navButton = (Button) findViewById((R.id.nav_button));
         setButton = (Button) findViewById(R.id.set_button);
+        floatAddButton = (FloatingActionButton) findViewById(R.id.float_add_button);
 
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorTopic);
@@ -71,6 +74,19 @@ public class MainActivity extends AppCompatActivity {
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.add(R.id.drawer_layout, sdFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
+        //悬浮新增按钮
+        floatAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateDaoFragment crFragment = new CreateDaoFragment();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.add(R.id.drawer_layout, crFragment);
                 ft.addToBackStack(null);
                 ft.commit();
             }
