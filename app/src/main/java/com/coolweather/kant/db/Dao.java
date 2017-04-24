@@ -17,7 +17,7 @@ public class Dao extends DataSupport {
     private String detail;
     private String sort;
     private int frequency;  //必要
-    private boolean on;
+    private int on;
     private String status;
 
     private long start_date;
@@ -69,11 +69,11 @@ public class Dao extends DataSupport {
         this.frequency = frequency;
     }
 
-    public boolean isOn() {
+    public int getOn() {
         return on;
     }
 
-    public void setOn(boolean on) {
+    public void setOn(int on) {
         this.on = on;
     }
 

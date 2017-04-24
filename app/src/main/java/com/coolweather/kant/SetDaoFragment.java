@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coolweather.kant.db.Dao;
+import com.coolweather.kant.util.Utility;
 
 import org.litepal.crud.DataSupport;
 
@@ -120,7 +121,9 @@ public class SetDaoFragment extends Fragment {
             TextView nameText = (TextView) view.findViewById(R.id.name_text);
             final Button setButton = (Button) view.findViewById(R.id.set_button);
 
-            nameText.setText(dao.getName());
+            final String name = dao.getName();
+
+            nameText.setText(name);
 
             setButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -132,15 +135,20 @@ public class SetDaoFragment extends Fragment {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.shutDown_item:
-                                    Toast.makeText(getActivity(), "shutDown", Toast.LENGTH_SHORT).show();
+                                    Dao dao = new Dao();
+                                    dao.setOn(2);
+                                    dao.setEnd_date(Utility.getTodayCount());
+                                    dao.updateAll("name = ?", name);
+                                    Toast.makeText(getActivity(), name + "已关闭", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
                                     break;
                                 case R.id.change_item:
-                                    Toast.makeText(getActivity(), "change", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "该功能还在路上...", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
                                     break;
                                 case R.id.delete_item:
-                                    Toast.makeText(getActivity(), "delete", Toast.LENGTH_SHORT).show();
+                                    DataSupport.deleteAll(Dao.class, "name = ?", name);
+                                    Toast.makeText(getActivity(), name + "已删除", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
                                     break;
                             }
@@ -168,7 +176,8 @@ public class SetDaoFragment extends Fragment {
             TextView nameText = (TextView) view.findViewById(R.id.name_text);
             final Button setButton = (Button) view.findViewById(R.id.set_button);
 
-            nameText.setText(dao.getName());
+            final String name = dao.getName();
+            nameText.setText(name);
 
             setButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -180,11 +189,16 @@ public class SetDaoFragment extends Fragment {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.open_item:
-                                    Toast.makeText(getActivity(), "open", Toast.LENGTH_SHORT).show();
+                                    Dao dao = new Dao();
+                                    dao.setOn(1);
+                                    dao.setStart_date(Utility.getTodayCount());
+                                    dao.updateAll("name = ?", name);
+                                    Toast.makeText(getActivity(), name + "已开启", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
                                     break;
                                 case R.id.delete_item:
-                                    Toast.makeText(getActivity(), "delete again", Toast.LENGTH_SHORT).show();
+                                    DataSupport.deleteAll(Dao.class, "name = ?", name);
+                                    Toast.makeText(getActivity(), name + "已删除", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
                                     break;
                             }

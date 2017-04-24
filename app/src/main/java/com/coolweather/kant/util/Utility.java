@@ -28,13 +28,13 @@ public class Utility {
         try {
             Dao dao = new Dao();
             dao.setName(name);
-            dao.setDetail(" ");
+            dao.setDetail("detail");
             dao.setSort(type);
             int fre1 = Integer.valueOf(fre);
             String fre2 = Integer.toString(fre1);
             dao.setFrequency(fre1);
-            dao.setOn(true);
-            dao.setStatus(" ");
+            dao.setOn(1);
+            dao.setStatus("status");
 
             long todayCount = getTodayCount();
 

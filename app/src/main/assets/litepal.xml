@@ -2,7 +2,7 @@
 
     <dbname value="cool_weather" />
 
-    <version value="4" />
+    <version value="5" />
 
     <list>
         <mapping class="com.coolweather.kant.db.Province" />
