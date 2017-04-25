@@ -34,7 +34,7 @@ public class ChooseActivityFragment extends Fragment {
         View view = inflater.inflate(R.layout.choose_activity, container, false);
         mottoText = (TextView) view.findViewById(R.id.motto_text);
         activityListView = (ListView) view.findViewById(R.id.activity_list);
-        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_city, activityList);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_activity, activityList);
         activityListView.setAdapter(adapter);
         return view;
     }

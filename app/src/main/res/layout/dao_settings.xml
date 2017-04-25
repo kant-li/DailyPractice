@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@color/colorBack2">
 
     <include layout="@layout/title_settings" />
 
@@ -33,7 +33,7 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:textSize="18sp"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/colorText2"
                     android:text="已开启事项："/>
 
                 <LinearLayout
@@ -50,7 +50,7 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:textSize="18sp"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/colorText2"
                     android:text="已关闭事项："/>
 
                 <LinearLayout

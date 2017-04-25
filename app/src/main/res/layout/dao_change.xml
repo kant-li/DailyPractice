@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@color/colorBack2">
 
     <include layout="@layout/title_change" />
 
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="名称："
-            android:textColor="#FFF"
+            android:textColor="@color/colorText2"
             android:textSize="18sp"/>
 
         <EditText
@@ -30,7 +30,7 @@
             android:hint=" 请输入名称 "
             android:textColorHint="#8a8a8a"
             android:theme="@style/MyEditText"
-            android:textColor="#fff"/>
+            android:textColor="@color/colorText2"/>
 
     </LinearLayout>
 
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="分类："
-            android:textColor="#FFF"
+            android:textColor="@color/colorText2"
             android:textSize="18sp"/>
 
         <EditText
@@ -56,7 +56,7 @@
             android:hint=" 请输入分类 "
             android:textColorHint="#8a8a8a"
             android:theme="@style/MyEditText"
-            android:textColor="#fff"/>
+            android:textColor="@color/colorText2"/>
 
     </LinearLayout>
 
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="频率："
-            android:textColor="#FFF"
+            android:textColor="@color/colorText2"
             android:textSize="18sp"/>
 
         <EditText
@@ -82,7 +82,7 @@
             android:hint=" 请输入频率 "
             android:textColorHint="#8a8a8a"
             android:theme="@style/MyEditText"
-            android:textColor="#fff"
+            android:textColor="@color/colorText2"
             android:textAlignment="center"/>
 
         <TextView
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="天/次"
-            android:textColor="#FFF"
+            android:textColor="@color/colorText2"
             android:textSize="18sp"/>
 
     </LinearLayout>
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="目标："
-            android:textColor="#FFF"
+            android:textColor="@color/colorText2"
             android:textSize="18sp"/>
 
         <EditText
@@ -117,7 +117,7 @@
             android:hint=" 请输入目标 "
             android:textColorHint="#8a8a8a"
             android:theme="@style/MyEditText"
-            android:textColor="#fff"
+            android:textColor="@color/colorText2"
             android:textAlignment="center"/>
 
         <TextView
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="次"
-            android:textColor="#FFF"
+            android:textColor="@color/colorText2"
             android:textSize="18sp"/>
 
     </LinearLayout>

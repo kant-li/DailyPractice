@@ -101,13 +101,21 @@ public class WeatherActivity extends AppCompatActivity {
             mWeatherId = weather.basic.weatherId;
             showWeatherInfo(weather);
         } else {
+            //如果没有没有缓存的天气数据，发出请求
+
             String weatherIdBeijing = "CN101010100";
+            String titleBeijing = "北京";
             String weatherId = getIntent().getStringExtra("weather_id");
+
             if (weatherId != null) {
+                //如果之前有选定城市，就用选定的城市
                 mWeatherId = weatherId;
                 weatherLayout.setVisibility(View.INVISIBLE);
                 requestWeather(mWeatherId);
             } else {
+                //如果之前没有选定城市，默认为北京
+                //在返回信息之前，设定城市标题为北京，避免没有网络的情况下使用天气功能带来的没有标题的问题
+                titleCity.setText(titleBeijing);
                 mWeatherId = weatherIdBeijing;
                 weatherLayout.setVisibility(View.INVISIBLE);
                 requestWeather(mWeatherId);

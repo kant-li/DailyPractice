@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@color/colorBack2">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -31,7 +31,7 @@
                     android:paddingTop="40dp"
                     android:paddingLeft="30dp"
                     android:paddingRight="30dp"
-                    android:textColor="#fff"
+                    android:textColor="@color/colorText2"
                     android:textSize="18sp"
                     android:lineSpacingExtra="8dp"/>
 
