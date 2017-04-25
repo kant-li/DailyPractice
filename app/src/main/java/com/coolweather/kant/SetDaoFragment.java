@@ -131,7 +131,6 @@ public class SetDaoFragment extends Fragment {
                                 case R.id.shutDown_item:
                                     Dao dao = new Dao();
                                     dao.setOn(2);
-                                    dao.setEnd_date(Utility.getTodayCount());
                                     dao.updateAll("name = ?", name);
                                     Toast.makeText(getActivity(), name + "已关闭", Toast.LENGTH_SHORT).show();
                                     popup.dismiss();
