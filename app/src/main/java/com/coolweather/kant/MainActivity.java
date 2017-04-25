@@ -13,9 +13,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -144,37 +146,11 @@ public class MainActivity extends AppCompatActivity {
         //先更新事项状态
         Utility.refreshDaoStatus();
         nowLayout.removeAllViews();
-//        daoListNow = DataSupport.findAll(Dao.class);
-        daoListNow = DataSupport.select("name").where("status = ?", "now").find(Dao.class);
+        daoListNow = DataSupport.where("status = ?", "now").find(Dao.class);
 
         for (Dao dao : daoListNow) {
 
-            View view = LayoutInflater.from(this).inflate(R.layout.dao_item, nowLayout, false);
-            CheckBox itemCheck = (CheckBox) view.findViewById(R.id.item_check);
-
-            itemCheck.setText(dao.getName());
-
-            itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-
-                        Dao dao = (DataSupport.where("name = ?", buttonView.getText().toString()).find(Dao.class)).get(0);
-                        dao.setRecent(Utility.getTodayCount());
-
-                        if (dao.save()) {
-                            Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
-                            refreshNowList();
-                        } else {
-                            Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+            View view = createViewFromDao(this, R.layout.dao_item, nowLayout, dao);
 
             nowLayout.addView(view);
         }
@@ -189,40 +165,97 @@ public class MainActivity extends AppCompatActivity {
         //先更新事项状态
         Utility.refreshDaoStatus();
         holdLayout.removeAllViews();
-//        daoListHold = DataSupport.findAll(Dao.class);
-        daoListHold = DataSupport.select("name").where("status = ?", "hold").find(Dao.class);
+        daoListHold = DataSupport.where("status = ?", "hold").find(Dao.class);
 
         for (Dao dao : daoListHold) {
 
-            View view = LayoutInflater.from(this).inflate(R.layout.dao_item, holdLayout, false);
-            CheckBox itemCheck = (CheckBox) view.findViewById(R.id.item_check);
-
-            itemCheck.setText(dao.getName());
-
-            itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    try {
-
-                        Dao dao = (DataSupport.where("name = ?", buttonView.getText().toString()).find(Dao.class)).get(0);
-                        dao.setRecent(Utility.getTodayCount());
-
-                        if (dao.save()) {
-                            Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
-                            refreshHoldList();
-                        } else {
-                            Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+            View view = createViewFromDao(this, R.layout.dao_item, holdLayout, dao);
 
             holdLayout.addView(view);
         }
 
+    }
+
+    //生成列表视图
+    protected View createViewFromDao(Activity activity, int item_layout, ViewGroup layout, Dao dao) {
+
+        View view = LayoutInflater.from(activity).inflate(item_layout, layout, false);
+        CheckBox itemCheck = (CheckBox) view.findViewById(R.id.item_check);
+
+        final String daoName = dao.getName();
+        final int count = dao.getCount();
+        long endDate = dao.getEnd_date();
+        String status = dao.getStatus();
+
+        if (endDate > 0) {
+            //单次事项，根据不同情况设置显示信息
+            String checkShowSingle = "";
+            long days = endDate - Utility.getTodayCount();
+            if (days < 0) {
+                checkShowSingle = daoName + "（已逾期）";
+            } else if (days == 0) {
+                checkShowSingle = daoName + "（今天到期）";
+            } else if (days == 1) {
+                checkShowSingle = daoName + "（明天到期）";
+            } else {
+                checkShowSingle = daoName + "（" + Long.toString(days) + "天后到期" + "）";
+            }
+
+            itemCheck.setText(checkShowSingle);
+
+        } else {
+            //重复事项，根据不同情况设置显示信息
+            long today = Utility.getTodayCount();
+            int goal = dao.getGoal();
+
+            int fre = dao.getFrequency();
+            long startDate = dao.getStart_date();
+            long daysToNewEndDate = fre - ((today - startDate) % fre) - 1;
+
+            String checkShowMulti = "";
+
+            if (status.equals("now")) {
+                checkShowMulti = daoName + "（" + Integer.toString(count) + "/" + Integer.toString(goal) + "）";
+            } else {
+                if (daysToNewEndDate == 1) {
+                    checkShowMulti = daoName + "（" + Integer.toString(count) + "/" + Integer.toString(goal)
+                            + "/" + "明天到期）";
+                } else if (daysToNewEndDate == 2) {
+                    checkShowMulti = daoName + "（" + Integer.toString(count) + "/" + Integer.toString(goal)
+                            + "/" + "后天到期）";
+                } else {
+                    checkShowMulti = daoName + "（" + Integer.toString(count) + "/" + Integer.toString(goal)
+                            + "/" + Long.toString(daysToNewEndDate) + "天后到期）";
+                }
+            }
+            itemCheck.setText(checkShowMulti);
+        }
+
+        itemCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                try {
+
+                    Dao dao = (DataSupport.where("name = ?", daoName).find(Dao.class)).get(0);
+                    dao.setRecent(Utility.getTodayCount());
+                    int newCount = count + 1;
+                    dao.setCount(newCount);
+
+                    if (dao.save()) {
+                        Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
+                        refreshHoldList();
+                        refreshNowList();
+                    } else {
+                        Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        return view;
     }
 
 }
