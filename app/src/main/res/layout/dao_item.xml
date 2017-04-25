@@ -16,6 +16,7 @@
         android:paddingLeft="5dp"
         android:paddingRight="10dp"
         android:textColor="@color/colorText"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:maxLines="1"/>
 
 </LinearLayout>
