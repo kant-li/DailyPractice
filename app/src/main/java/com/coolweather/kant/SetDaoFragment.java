@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.coolweather.kant.util.Utility;
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
+
+import static java.lang.Math.max;
 
 /**
  * Created by kant on 2017/3/24.
@@ -146,22 +149,46 @@ public class SetDaoFragment extends Fragment {
                                     Dao dao1 = (DataSupport.where("name = ?", name).find(Dao.class)).get(0);
                                     String name1 = dao1.getName();
                                     String type1 = dao1.getSort();
-                                    int fre1 = dao1.getFrequency();
-                                    int goal1 = dao1.getGoal();
+                                    long endDate = dao1.getEnd_date();
 
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("name", name1);
-                                    bundle.putString("type", type1);
-                                    bundle.putInt("fre", fre1);
-                                    bundle.putInt("goal", goal1);
+                                    if (endDate > 0) {
+                                        //单次事项，如果已过期，设置为0天后
+                                        long days = max(0, endDate - Utility.getTodayCount());
+                                        String endDays = Long.toString(days);
+                                        Log.d("endDays", endDays);
 
-                                    ChangeDaoFragment cg = new ChangeDaoFragment();
-                                    cg.setArguments(bundle);
-                                    FragmentManager fm = getFragmentManager();
-                                    FragmentTransaction ft = fm.beginTransaction();
-                                    ft.add(R.id.drawer_layout, cg);
-                                    ft.addToBackStack(null);
-                                    ft.commit();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("name", name1);
+                                        bundle.putString("type", type1);
+                                        bundle.putString("endDays", endDays);
+
+                                        ChangeSingleDaoFragment cs = new ChangeSingleDaoFragment();
+                                        cs.setArguments(bundle);
+                                        FragmentManager fm = getFragmentManager();
+                                        FragmentTransaction ft = fm.beginTransaction();
+                                        ft.add(R.id.drawer_layout, cs);
+                                        ft.addToBackStack(null);
+                                        ft.commit();
+
+                                    } else {
+                                        //重复事项
+                                        int fre1 = dao1.getFrequency();
+                                        int goal1 = dao1.getGoal();
+
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("name", name1);
+                                        bundle.putString("type", type1);
+                                        bundle.putInt("fre", fre1);
+                                        bundle.putInt("goal", goal1);
+
+                                        ChangeDaoFragment cg = new ChangeDaoFragment();
+                                        cg.setArguments(bundle);
+                                        FragmentManager fm = getFragmentManager();
+                                        FragmentTransaction ft = fm.beginTransaction();
+                                        ft.add(R.id.drawer_layout, cg);
+                                        ft.addToBackStack(null);
+                                        ft.commit();
+                                    }
 
                                     break;
                                 case R.id.delete_item:

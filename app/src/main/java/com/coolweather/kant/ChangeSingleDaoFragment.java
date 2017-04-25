@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,26 +25,24 @@ import java.util.List;
  * Created by kant on 2017/3/24.
  */
 
-public class ChangeDaoFragment extends Fragment {
+public class ChangeSingleDaoFragment extends Fragment {
 
     private Button backButton;
     private Button createButton;
 
     private EditText nameInput;
     private EditText typeInput;
-    private EditText freInput;
-    private EditText goalInput;
+    private EditText deadlineInput;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dao_change, container, false);
+        View view = inflater.inflate(R.layout.dao_change_single, container, false);
         backButton = (Button) view.findViewById(R.id.back_button);
         createButton = (Button) view.findViewById(R.id.save_button);
         nameInput = (EditText) view.findViewById(R.id.name_input);
         typeInput = (EditText) view.findViewById(R.id.type_input);
-        freInput = (EditText) view.findViewById(R.id.fre_input);
-        goalInput = (EditText) view.findViewById(R.id.goal_input);
+        deadlineInput = (EditText) view.findViewById(R.id.deadline_input);
         return view;
     }
 
@@ -54,13 +53,11 @@ public class ChangeDaoFragment extends Fragment {
 
         final String name1 = getArguments().getString("name");
         String type1 = getArguments().getString("type");
-        String fre1 = Integer.toString(getArguments().getInt("fre"));
-        String goal1 = Integer.toString(getArguments().getInt("goal"));
+        String endDays = getArguments().getString("endDays");
 
         nameInput.setText(name1);
         typeInput.setText(type1);
-        freInput.setText(fre1);
-        goalInput.setText(goal1);
+        deadlineInput.setText(endDays);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,23 +89,21 @@ public class ChangeDaoFragment extends Fragment {
                 } else {
 
                     //依然要处理输入异常问题
-                    int fre ;
-                    int goal;
+                    Long deadline = 0l;
 
                     try {
-                        fre = Integer.valueOf(freInput.getText().toString());
-                        goal = Integer.valueOf(goalInput.getText().toString());
+                        int deadlineDays = Integer.valueOf(deadlineInput.getText().toString());
+                        deadline = Utility.getTodayCount() + deadlineDays;
 
                         //保存修改
                         Dao dao = new Dao();
                         dao.setName(name);
                         dao.setSort(type);
-                        dao.setFrequency(fre);
-                        dao.setGoal(goal);
+                        dao.setEnd_date(deadline);
                         dao.updateAll("name = ?", name1);
 
                     } catch (Exception e) {
-                        Toast.makeText(getActivity(), "请核对数字是否正确", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "请核对截止天数", Toast.LENGTH_SHORT).show();
                     }
 
                     hideKeyboard(v.getWindowToken());

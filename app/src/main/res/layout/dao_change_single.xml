@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBack2">
+
+    <include layout="@layout/title_change" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="名称："
+            android:textColor="@color/colorText2"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" 请输入名称 "
+            android:textColorHint="#8a8a8a"
+            android:theme="@style/MyEditText"
+            android:textColor="@color/colorText2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="分类："
+            android:textColor="@color/colorText2"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/type_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" 请输入分类 "
+            android:textColorHint="#8a8a8a"
+            android:theme="@style/MyEditText"
+            android:textColor="@color/colorText2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="截止："
+            android:textColor="@color/colorText2"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/deadline_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint=" 截止的天数 "
+            android:textColorHint="#8a8a8a"
+            android:theme="@style/MyEditText"
+            android:textColor="@color/colorText2"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="天后"
+            android:textColor="@color/colorText2"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

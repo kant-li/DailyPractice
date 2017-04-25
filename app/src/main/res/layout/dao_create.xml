@@ -60,6 +60,16 @@
 
     </LinearLayout>
 
+    <CheckBox
+        android:id="@+id/multi_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text="重复事项"
+        android:textSize="18sp"
+        android:textColor="@color/colorText2"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -79,8 +89,9 @@
             android:id="@+id/fre_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint=" 请输入频率 "
+            android:hint=" 不需要输入 "
             android:textColorHint="#8a8a8a"
+            android:focusable="false"
             android:theme="@style/MyEditText"
             android:textColor="@color/colorText2"
             android:textAlignment="center"/>
@@ -114,8 +125,9 @@
             android:id="@+id/goal_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint=" 请输入目标 "
+            android:hint=" 不需要输入 "
             android:textColorHint="#8a8a8a"
+            android:focusable="false"
             android:theme="@style/MyEditText"
             android:textColor="@color/colorText2"
             android:textAlignment="center"/>
@@ -125,6 +137,52 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="次"
+            android:textColor="@color/colorText2"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/single_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text="单次事项"
+        android:textSize="18sp"
+        android:textColor="@color/colorText2"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="截止："
+            android:textColor="@color/colorText2"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/deadline_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint=" 不需要输入 "
+            android:textColorHint="#8a8a8a"
+            android:focusable="false"
+            android:theme="@style/MyEditText"
+            android:textColor="@color/colorText2"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="天后"
             android:textColor="@color/colorText2"
             android:textSize="18sp"/>
 

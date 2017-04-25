@@ -42,8 +42,8 @@ public class Utility {
             long todayCount = getTodayCount();
 
             dao.setStart_date(todayCount);
-            dao.setEnd_date(0);
-            dao.setRecent(0);
+            dao.setEnd_date(0l);
+            dao.setRecent(0l);
 
             dao.setCount(0);
             int goal1 = Integer.valueOf(goal);
@@ -51,6 +51,38 @@ public class Utility {
 
             dao.save();
 
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean createDao(String name, String type, String endDate) {
+
+        try {
+            Dao dao = new Dao();
+            dao.setName(name);
+            dao.setDetail("detail");
+            dao.setSort(type);
+            dao.setFrequency(0);
+            dao.setOn(1);
+            dao.setStatus("status");
+
+            long todayCount = getTodayCount();
+
+            dao.setStart_date(todayCount);
+
+            int deadlineDays = Integer.valueOf(endDate);
+            long deadline = Utility.getTodayCount() + deadlineDays;
+
+            dao.setEnd_date(deadline);
+            dao.setRecent(0l);
+
+            dao.setCount(0);
+            dao.setGoal(1);
+
+            dao.save();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,29 +114,45 @@ public class Utility {
            //首先判断是否开启，如果是关闭状态，直接设置为关闭
            if (dao.getOn() == 1) {
 
-               //这里统一使用系统开始日期到目标日期的天数间隔进行计算
                long today = getTodayCount();
-               long recent = dao.getRecent();
-               long startDate = dao.getStart_date();
-               int fre = dao.getFrequency();
-               long newRoundStartDate = today - ((today - startDate) % fre);  //新一轮事项的开始日期
-               long newRoundEndDate = newRoundStartDate + fre - 1;              //新一轮事项的结束日期
+               long endDate = dao.getEnd_date();
 
-               //如果最近一次执行事项比新一轮开始事件早，就需要执行，否则为已完成事项
-               if (recent < newRoundStartDate) {
-
-                   //如果今天是新一轮事项的结束日期，为今天必须完成的事项，否则为接下来完成的事项
-                   if (today < newRoundEndDate) {
+               //通过截止日期是否存在来判断是否为单次事件
+               if (endDate > 0) {
+                   //单次事项
+                   if (endDate > today) {
                        dao.setStatus("hold");
                    } else {
+                       //到期或过期的都属于当日事件
                        dao.setStatus("now");
                    }
+                   dao.save();
 
                } else {
-                   dao.setStatus("done");
-               }
+                   //重复事项
+                   //这里统一使用系统开始日期到目标日期的天数间隔进行计算
+                   long recent = dao.getRecent();
+                   long startDate = dao.getStart_date();
+                   int fre = dao.getFrequency();
+                   long newRoundStartDate = today - ((today - startDate) % fre);  //新一轮事项的开始日期
+                   long newRoundEndDate = newRoundStartDate + fre - 1;              //新一轮事项的结束日期
 
-               dao.save();
+                   //如果最近一次执行事项比新一轮开始事件早，就需要执行，否则为已完成事项
+                   if (recent < newRoundStartDate) {
+
+                       //如果今天是新一轮事项的结束日期，为今天必须完成的事项，否则为接下来完成的事项
+                       if (today < newRoundEndDate) {
+                           dao.setStatus("hold");
+                       } else {
+                           dao.setStatus("now");
+                       }
+
+                   } else {
+                       dao.setStatus("done");
+                   }
+
+                   dao.save();
+               }
            } else {
                dao.setStatus("close");
                dao.save();
