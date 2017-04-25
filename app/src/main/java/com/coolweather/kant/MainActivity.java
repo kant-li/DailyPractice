@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             Utility.createDao("每天睡觉前刷牙","生活","1","30");
             Utility.createDao("每天读书1小时","学习","1","30");
             Utility.createDao("每3天跑步3公里","运动","3","10");
+            Utility.createDao("每周给老爸打电话","生活","7","100");
 
         } else {
 

@@ -44,7 +44,7 @@ public class ChooseActivityFragment extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
-        mottoText.setText("阴晴寒暑\n修行不辍");
+        mottoText.setText("天行健\n君子以自强不息");
         activityList.add("事项");
         activityList.add("天气");
         activityList.add("关于");

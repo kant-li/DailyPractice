@@ -26,9 +26,12 @@ public class AboutActivity extends AppCompatActivity {
         navButton = (Button) findViewById((R.id.nav_button));
         introText = (TextView) findViewById(R.id.intro_text);
 
-        introText.setText("        阴晴是一个自我管理类应用。\n" +
-                "        生活仿佛一场修行。\n" +
-                "        祝你好运！");
+        introText.setText("修行是一个个人管理类应用，用于帮助习惯养成与事项安排。\n\n" +
+                "《大学》曰：茍日新，日日新，又日新。\n" +
+                "《中庸》曰：君子之中庸也，君子而时中。\n" +
+                "《周易》曰：天行健，君子以自强不息。\n\n" +
+                "祝你早日找到人生中真正重要的事！\n" +
+                "祝你在行走的路上早得平安喜乐！");
 
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override

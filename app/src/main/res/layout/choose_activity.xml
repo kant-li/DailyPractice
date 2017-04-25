@@ -15,11 +15,13 @@
             android:id="@+id/motto_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
             android:textColor="#fff"
             android:textSize="30sp"
             android:lineSpacingExtra="8dp"
-            android:text="天行健\n君子以自强不息"/>
+            android:text="阴晴寒暑\n修行不辍"/>
 
     </RelativeLayout>
 
