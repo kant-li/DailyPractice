@@ -18,6 +18,7 @@
             <include layout="@layout/title_static" />
 
             <RadioGroup
+                android:id="@+id/period_select"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -33,7 +34,7 @@
                     android:button="@null"
                     android:checked="true"
                     android:gravity="center"
-                    android:text="一周内"
+                    android:text="一星期"
                     android:textColor="@color/my_radio_text_color"
                     android:textSize="18sp" />
 
@@ -70,7 +71,7 @@
             </RadioGroup>
 
             <ScrollView
-                android:id="@+id/weather_layout"
+                android:id="@+id/data_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"
@@ -81,7 +82,27 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <LinearLayout
+                        android:id="@+id/record_layout"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
+                    </LinearLayout>
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/type_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </com.github.mikephil.charting.charts.PieChart>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/progress_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </com.github.mikephil.charting.charts.LineChart>
 
                 </LinearLayout>
 
