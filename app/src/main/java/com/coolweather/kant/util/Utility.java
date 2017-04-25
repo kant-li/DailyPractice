@@ -64,6 +64,10 @@ public class Utility {
             Dao dao = new Dao();
             dao.setName(name);
             dao.setDetail("detail");
+
+            if (type.equals("")) {
+                type = type + "未指定类别";
+            }
             dao.setSort(type);
             dao.setFrequency(0);
             dao.setOn(1);

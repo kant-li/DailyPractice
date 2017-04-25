@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.coolweather.kant.db.Dao;
+import com.coolweather.kant.db.Record;
 import com.coolweather.kant.util.Utility;
 
 import org.litepal.crud.DataSupport;
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         CheckBox itemCheck = (CheckBox) view.findViewById(R.id.item_check);
 
         final String daoName = dao.getName();
+        final String daoType = dao.getSort();
         final int count = dao.getCount();
         long endDate = dao.getEnd_date();
         String status = dao.getStatus();
@@ -235,7 +237,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 try {
+                    //保存记录，用于统计
+                    Record record = new Record();
+                    record.setName(daoName);
+                    record.setType(daoType);
+                    record.setDate(Utility.getTodayCount());
 
+                    record.save();
+
+                    //更新事项数据与界面
                     Dao dao = (DataSupport.where("name = ?", daoName).find(Dao.class)).get(0);
                     dao.setRecent(Utility.getTodayCount());
                     int newCount = count + 1;

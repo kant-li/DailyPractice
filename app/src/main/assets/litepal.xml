@@ -9,6 +9,7 @@
         <mapping class="com.coolweather.kant.db.City" />
         <mapping class="com.coolweather.kant.db.County" />
         <mapping class="com.coolweather.kant.db.Dao" />
+        <mapping class="com.coolweather.kant.db.Record" />
     </list>
 
 </litepal>
