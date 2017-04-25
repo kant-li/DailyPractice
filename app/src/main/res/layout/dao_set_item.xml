@@ -19,7 +19,8 @@
             android:layout_alignParentLeft="true"
             android:paddingLeft="10dp"
             android:textColor="#fff"
-            android:textSize="18sp"/>
+            android:textSize="16sp"
+            android:maxLines="1"/>
 
         <Button
             android:id="@+id/set_button"

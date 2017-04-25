@@ -32,7 +32,7 @@
                     android:paddingLeft="30dp"
                     android:paddingRight="30dp"
                     android:textColor="@color/colorText2"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:lineSpacingExtra="8dp"/>
 
             </LinearLayout>
