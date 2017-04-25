@@ -47,6 +47,7 @@ public class ChooseActivityFragment extends Fragment {
         mottoText.setText("天行健\n君子以自强不息");
         activityList.add("事项");
         activityList.add("天气");
+        activityList.add("统计");
         activityList.add("关于");
 
         activityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,6 +63,8 @@ public class ChooseActivityFragment extends Fragment {
                     activity = new WeatherActivity();
                 } else if (activityList.get(position).equals("关于")) {
                     activity = new AboutActivity();
+                } else if (activityList.get(position).equals("统计")) {
+                    activity = new StaticActivity();
                 }
 
 //                if (getActivity().getClass() == activity.getClass()) {
