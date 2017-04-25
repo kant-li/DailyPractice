@@ -56,24 +56,30 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingTop="10dp"
+                                android:layout_marginLeft="8dp"
+                                android:paddingTop="20dp"
                                 android:paddingBottom="10dp"
                                 android:textSize="18sp"
                                 android:textColor="@color/colorText2"
-                                android:text="今日事件："/>
+                                android:text="今日事项："/>
 
                             <LinearLayout
                                 android:id="@+id/now_layout"
                                 android:orientation="vertical"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:divider="@drawable/ic_line"
+                                android:showDividers="beginning|middle|end">
 
                             </LinearLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingTop="10dp"
+                                android:layout_marginLeft="8dp"
+                                android:paddingTop="20dp"
                                 android:paddingBottom="10dp"
                                 android:textSize="18sp"
                                 android:textColor="@color/colorText2"
@@ -83,7 +89,11 @@
                                 android:id="@+id/hold_layout"
                                 android:orientation="vertical"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:divider="@drawable/ic_line"
+                                android:showDividers="beginning|middle|end">
 
                             </LinearLayout>
 

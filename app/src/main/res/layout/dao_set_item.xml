@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="1dp"
-    android:background="@color/colorBox">
+    android:layout_margin="1dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,8 +16,8 @@
             android:gravity="center_vertical"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:paddingLeft="10dp"
-            android:textColor="#fff"
+            android:paddingLeft="0dp"
+            android:textColor="@color/colorText2"
             android:textSize="16sp"
             android:maxLines="1"/>
 
@@ -28,10 +27,10 @@
             android:layout_height="20dp"
             android:gravity="center_vertical"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="13dp"
             android:layout_marginBottom="13dp"
-            android:background="@drawable/ic_more2"/>
+            android:background="@drawable/ic_more"/>
 
     </RelativeLayout>
 
