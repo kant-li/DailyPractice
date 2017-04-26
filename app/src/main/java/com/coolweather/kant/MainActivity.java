@@ -252,7 +252,9 @@ public class MainActivity extends AppCompatActivity {
                     dao.setCount(newCount);
 
                     if (dao.save()) {
+                        //给出提示
                         Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
+                        //刷新界面
                         refreshHoldList();
                         refreshNowList();
                     } else {

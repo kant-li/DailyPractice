@@ -1,18 +1,23 @@
 package com.coolweather.kant;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.coolweather.kant.db.Dao;
 import com.coolweather.kant.db.Record;
 import com.coolweather.kant.util.Utility;
 import com.github.mikephil.charting.charts.LineChart;
@@ -20,7 +25,9 @@ import com.github.mikephil.charting.charts.PieChart;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StaticActivity extends AppCompatActivity {
 
@@ -77,22 +84,86 @@ public class StaticActivity extends AppCompatActivity {
                     default:
                         break;
                 }
-
+                //刷新界面
+                refreshData(period);
             }
         });
 
+    }
+
+    //重写onResume()方法
+    @Override
+    public void onResume() {
+        refreshData(period);
+        super.onResume();
+    }
+
+    //定义界面刷新
+    private  void refreshData(int period) {
+
         //从数据库取得数据
         long startDate = Utility.getTodayCount() - period;
-        List<Record> recordList = DataSupport.where("date >= ?", Long.toString(startDate)).find(Record.class);
-        
+        List<Record> recordList = DataSupport.where("date > ?", Long.toString(startDate)).find(Record.class);
+
+        //获得计数值，用map存储
+        Map<String, Integer> nameCount = new HashMap<String, Integer>();
+        Map<String, Integer> typeCount = new HashMap<String, Integer>();
+        Map<Long, Integer> dateCount = new HashMap<Long, Integer>();
+
+        for (Record record : recordList) {
+            String name = record.getName();
+            if (nameCount.containsKey(name)) {
+                int count = nameCount.get(name) + 1;
+                nameCount.put(name, count);
+            } else {
+                nameCount.put(name, 1);
+            }
+
+            String type = record.getType();
+            if (typeCount.containsKey(type)) {
+                int count = typeCount.get(type) + 1;
+                typeCount.put(type, count);
+            } else {
+                typeCount.put(type, 1);
+            }
+
+            Long date = record.getDate();
+            if (dateCount.containsKey(date)) {
+                int count = dateCount.get(date) + 1;
+                dateCount.put(date, count);
+            } else {
+                dateCount.put(date, 1);
+            }
+        }
 
         //定义列表生成逻辑
+        //先删除旧数据
+        recordLayout.removeAllViews();
+
+        for (String key : nameCount.keySet()) {
+
+            View view = createViewFromMap(this, R.layout.static_item, recordLayout, key, nameCount.get(key));
+            recordLayout.addView(view);
+        }
 
         //定义分类饼图数据逻辑
 
         //定义折线图数据逻辑
 
-        //应用函数
+    }
 
+    //应用函数
+    protected View createViewFromMap(Activity activity, int item_layout, ViewGroup layout, String key, int count) {
+
+        View view = LayoutInflater.from(activity).inflate(item_layout, layout, false);
+        TextView nameText = (TextView) view.findViewById(R.id.name_text);
+        TextView countText = (TextView) view.findViewById(R.id.name_count);
+
+        String countString = Integer.toString(count) + "次";
+
+        nameText.setText(key);
+        countText.setText(countString);
+
+        return view;
     }
 }
