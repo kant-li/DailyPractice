@@ -22,9 +22,21 @@ import com.coolweather.kant.db.Record;
 import com.coolweather.kant.util.Utility;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,12 +159,15 @@ public class StaticActivity extends AppCompatActivity {
         }
 
         //定义分类饼图数据逻辑
+        setData(typeCount);
 
         //定义折线图数据逻辑
+        setLineData(dateCount, period);
 
     }
 
     //应用函数
+    //创建统计列表视图
     protected View createViewFromMap(Activity activity, int item_layout, ViewGroup layout, String key, int count) {
 
         View view = LayoutInflater.from(activity).inflate(item_layout, layout, false);
@@ -166,4 +181,69 @@ public class StaticActivity extends AppCompatActivity {
 
         return view;
     }
+
+    //设置饼图数据
+    private void setData(Map<String, Integer> dataMap) {
+
+        List<PieEntry> yValues = new ArrayList<PieEntry>();
+
+        for (String key : dataMap.keySet()) {
+            yValues.add(new PieEntry(dataMap.get(key), key));
+        }
+
+        PieDataSet yDataSet = new PieDataSet(yValues, "");
+        yDataSet.setColors(new int[] {R.color.color0, R.color.color6, R.color.color5, R.color.color3, R.color.color2,
+                R.color.color7, R.color.color1, R.color.color4}, getApplicationContext());
+
+        yDataSet.setSliceSpace(1f);
+        yDataSet.setSelectionShift(10f);
+
+        PieData data = new PieData(yDataSet);
+
+        data.setValueTextColor(getResources().getColor(R.color.colorText));
+        data.setValueTextSize(16f);
+        data.setValueFormatter(new PercentFormatter());
+
+        //设置基本视图属性
+        typeChart.setNoDataText("抱歉，好像没有数据呢！");
+        typeChart.setNoDataTextColor(R.color.colorText2);
+
+        Description ds = typeChart.getDescription();
+        ds.setEnabled(false);
+
+        typeChart.setRotationAngle(30f);
+
+        typeChart.setUsePercentValues(true);
+
+        Legend typeLegend = typeChart.getLegend();
+        typeLegend.setEnabled(false);
+
+        typeChart.setData(data);
+        typeChart.invalidate();
+    }
+
+    //设置折线图数据
+    private void setLineData(Map<Long, Integer> dataMap, int period) {
+
+        ArrayList<String> dateList = new ArrayList<>();
+        if (period == 7) {
+
+        }
+
+
+        List<Entry> lineEntries = new ArrayList<Entry>();
+        float xi = 1f;
+        for (Long key : dataMap.keySet()) {
+            lineEntries.add(new Entry(xi, dataMap.get(key)));
+            xi = xi + 1;
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "");
+
+        LineData lineData = new LineData(lineDataSet);
+
+        progressChart.setData(lineData);
+        progressChart.invalidate();
+    }
+
 }

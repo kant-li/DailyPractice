@@ -10,4 +10,13 @@
 
     <color name="colorBack2">#FFF</color>
     <color name="colorText2">#566573</color>
+
+    <color name="color0">#ff8282</color>
+    <color name="color1">#82ff82</color>
+    <color name="color2">#8282ff</color>
+    <color name="color3">#ffc082</color>
+    <color name="color4">#ff82c0</color>
+    <color name="color5">#d4d4ff</color>
+    <color name="color6">#82c0ff</color>
+    <color name="color7">#82ffff</color>
 </resources>
