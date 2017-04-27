@@ -214,7 +214,7 @@ public class StaticActivity extends AppCompatActivity {
 
             PieData data = new PieData(yDataSet);
 
-            data.setValueTextColor(getResources().getColor(R.color.colorText));
+            data.setValueTextColor(Color.parseColor("#ffffff"));
             data.setValueTextSize(16f);
             data.setValueFormatter(new PercentFormatter());
 
@@ -234,7 +234,7 @@ public class StaticActivity extends AppCompatActivity {
 
         //设置无数据时的提示
         typeChart.setNoDataText("暂无数据");
-        typeChart.setNoDataTextColor(getResources().getColor(R.color.colorText2));
+        typeChart.setNoDataTextColor(Color.parseColor("#566573"));
 
         typeChart.invalidate();
     }
@@ -320,7 +320,7 @@ public class StaticActivity extends AppCompatActivity {
             XAxis xAxis1 = progressChart.getXAxis();
             xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis1.setDrawAxisLine(false);
-            xAxis1.setTextColor(getResources().getColor(R.color.colorText2));
+            xAxis1.setTextColor(Color.parseColor("#566573"));
 
             Legend legend = progressChart.getLegend();
             legend.setEnabled(false);
@@ -331,7 +331,7 @@ public class StaticActivity extends AppCompatActivity {
 
         //设置无数据时的提示
         progressChart.setNoDataText("暂无数据");
-        progressChart.setNoDataTextColor(getResources().getColor(R.color.colorText2));
+        progressChart.setNoDataTextColor(Color.parseColor("#566573"));
 
         progressChart.invalidate();
     }
