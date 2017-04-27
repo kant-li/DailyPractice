@@ -27,6 +27,7 @@ import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -306,6 +307,7 @@ public class StaticActivity extends AppCompatActivity {
             progressChart.getAxisLeft().setEnabled(false);
             progressChart.getAxisRight().setEnabled(false);
             progressChart.enableScroll();
+            progressChart.setVisibleYRangeMinimum(5, YAxis.AxisDependency.RIGHT);
             if (period == 7) {
                 progressChart.setVisibleXRangeMinimum(6f);
                 progressChart.setVisibleXRangeMaximum(7f);
