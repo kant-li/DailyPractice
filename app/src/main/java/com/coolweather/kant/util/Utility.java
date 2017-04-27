@@ -119,6 +119,7 @@ public class Utility {
            if (dao.getOn() == 1) {
 
                long today = getTodayCount();
+               Log.d("refresh today", Long.toString(today));
                long endDate = dao.getEnd_date();
 
                //通过截止日期是否存在来判断是否为单次事件
@@ -138,7 +139,7 @@ public class Utility {
                    long recent = dao.getRecent();
                    long startDate = dao.getStart_date();
                    int fre = dao.getFrequency();
-                   long newRoundStartDate = today - ((today - startDate) % fre);  //新一轮事项的开始日期
+                   long newRoundStartDate = today - ((today - startDate) % fre);    //新一轮事项的开始日期
                    long newRoundEndDate = newRoundStartDate + fre - 1;              //新一轮事项的结束日期
 
                    //如果最近一次执行事项比新一轮开始事件早，就需要执行，否则为已完成事项

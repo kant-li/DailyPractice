@@ -1,6 +1,7 @@
 package com.coolweather.kant;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
@@ -32,6 +33,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
@@ -260,7 +262,18 @@ public class StaticActivity extends AppCompatActivity {
 
         LineDataSet lineDataSet = new LineDataSet(lineEntries, "趋势数据");
 
+        lineDataSet.setColor(Color.parseColor("#ff8282"));
+        lineDataSet.setCircleColor(Color.parseColor("#ff8282"));
+//        lineDataSet.setDrawValues(false);
+        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        lineDataSet.setHighlightEnabled(false);
+
         LineData lineData = new LineData(lineDataSet);
+
+        DefaultValueFormatter dformatter = new DefaultValueFormatter(0);
+        lineData.setValueFormatter(dformatter);
+        lineData.setValueTextSize(12f);
+        lineData.setValueTextColor(Color.parseColor("#ff8282"));
 
         progressChart.setData(lineData);
 
@@ -281,8 +294,23 @@ public class StaticActivity extends AppCompatActivity {
         progressChart.setScaleEnabled(false);
         progressChart.getAxisLeft().setEnabled(false);
         progressChart.getAxisRight().setEnabled(false);
+        progressChart.enableScroll();
+        if (period == 7) {
+            progressChart.setVisibleXRangeMinimum(6f);
+            progressChart.setVisibleXRangeMaximum(7f);
+        } else if (period == 30) {
+            progressChart.setVisibleXRangeMinimum(14f);
+            progressChart.setVisibleXRangeMaximum(14f);
+        } else if (period == 90) {
+            progressChart.setVisibleXRangeMinimum(14f);
+            progressChart.setVisibleXRangeMaximum(14f);
+        }
+        progressChart.moveViewToX(xi);
         XAxis xAxis1 = progressChart.getXAxis();
         xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis1.setDrawAxisLine(false);
+        xAxis1.setTextColor(getResources().getColor(R.color.colorText2));
+
         Legend legend = progressChart.getLegend();
         legend.setEnabled(false);
         Description ds = progressChart.getDescription();
