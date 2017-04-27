@@ -149,6 +149,12 @@ public class MainActivity extends AppCompatActivity {
         nowLayout.removeAllViews();
         daoListNow = DataSupport.where("status = ?", "now").find(Dao.class);
 
+        //如果没有数据，加载无事项界面
+        if (daoListNow.size() == 0) {
+            View view = LayoutInflater.from(this).inflate(R.layout.no_item, nowLayout, false);
+            nowLayout.addView(view);
+        }
+
         for (Dao dao : daoListNow) {
 
             View view = createViewFromDao(this, R.layout.dao_item, nowLayout, dao);
@@ -167,6 +173,12 @@ public class MainActivity extends AppCompatActivity {
         Utility.refreshDaoStatus();
         holdLayout.removeAllViews();
         daoListHold = DataSupport.where("status = ?", "hold").find(Dao.class);
+
+        //如果没有数据，加载无事项界面
+        if (daoListHold.size() == 0) {
+            View view = LayoutInflater.from(this).inflate(R.layout.no_item, holdLayout, false);
+            holdLayout.addView(view);
+        }
 
         for (Dao dao : daoListHold) {
 

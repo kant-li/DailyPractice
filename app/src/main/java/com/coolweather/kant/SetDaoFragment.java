@@ -112,6 +112,12 @@ public class SetDaoFragment extends Fragment {
         onLayout.removeAllViews();
         daoListOn = DataSupport.select("name").where("on = ?", "1").find(Dao.class);
 
+        //如果没有数据，加载无事项界面
+        if (daoListOn.size() == 0) {
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.no_item, onLayout, false);
+            onLayout.addView(view);
+        }
+
         for (Dao dao : daoListOn) {
 
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.dao_set_item, onLayout, false);
@@ -217,6 +223,12 @@ public class SetDaoFragment extends Fragment {
         //获得数据库中的数据
         offLayout.removeAllViews();
         daoListOff = DataSupport.select("name").where("on = ?", "2").find(Dao.class);
+
+        //如果没有数据，加载无事项界面
+        if (daoListOff.size() == 0) {
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.no_item, offLayout, false);
+            offLayout.addView(view);
+        }
 
         for (Dao dao : daoListOff) {
 
