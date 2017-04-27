@@ -22,14 +22,17 @@ import com.coolweather.kant.db.Record;
 import com.coolweather.kant.util.Utility;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
@@ -37,6 +40,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -225,24 +229,52 @@ public class StaticActivity extends AppCompatActivity {
     //设置折线图数据
     private void setLineData(Map<Long, Integer> dataMap, int period) {
 
-        ArrayList<String> dateList = new ArrayList<>();
-        if (period == 7) {
+        List<Entry> lineEntries = new ArrayList<Entry>();
+        float xi = 0f;
 
+        final ArrayList<String> dates = new ArrayList<String>(); //用于存放日期，用于X轴显示
+
+        //X轴数值提取逻辑有问题，dates不会使用已更新的数据，切换时长时导致Index out of bound错误，
+        // 为解决这个问题，只好先把dates初始化size为90；
+        for (int i = 0; i < 90; i++) {
+            dates.add(Integer.toString(0));
         }
 
+        //把期间内每一天的数据获得并加入数据列表中，如果字典中没有，则为0
+        for (int i = period - 1; i >= 0; i--) {
+            Long date = Utility.getTodayCount() - i;
+            if (dataMap.containsKey(date)) {
+                lineEntries.add(new Entry(xi, dataMap.get(date)));
+            } else {
+                lineEntries.add(new Entry(xi, 0));
+            }
 
-        List<Entry> lineEntries = new ArrayList<Entry>();
-        float xi = 1f;
-        for (Long key : dataMap.keySet()) {
-            lineEntries.add(new Entry(xi, dataMap.get(key)));
+            //在列表中加入当天的日期
+            Calendar theDay = Calendar.getInstance();
+            theDay.add(Calendar.DAY_OF_MONTH, (i * (-1)));
+            String dayOfMonth = Integer.toString(theDay.get(Calendar.DAY_OF_MONTH));
+            dates.set((int) xi, dayOfMonth);
+
             xi = xi + 1;
         }
 
-        LineDataSet lineDataSet = new LineDataSet(lineEntries, "");
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "趋势数据");
 
         LineData lineData = new LineData(lineDataSet);
 
         progressChart.setData(lineData);
+
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return dates.get((int) value);
+            }
+        };
+
+        XAxis xAxis = progressChart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(formatter);
+
         progressChart.invalidate();
     }
 
