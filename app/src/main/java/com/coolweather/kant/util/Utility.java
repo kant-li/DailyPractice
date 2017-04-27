@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
@@ -119,7 +118,6 @@ public class Utility {
            if (dao.getOn() == 1) {
 
                long today = getTodayCount();
-               Log.d("refresh today", Long.toString(today));
                long endDate = dao.getEnd_date();
 
                //通过截止日期是否存在来判断是否为单次事件
