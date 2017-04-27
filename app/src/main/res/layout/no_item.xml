@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/name_text"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="40dp"
         android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"

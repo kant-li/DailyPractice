@@ -158,6 +158,12 @@ public class StaticActivity extends AppCompatActivity {
         //先删除旧数据
         recordLayout.removeAllViews();
 
+        //如果没有数据，加载无事项界面
+        if (nameCount.size() == 0) {
+            View view = LayoutInflater.from(this).inflate(R.layout.no_item, recordLayout, false);
+            recordLayout.addView(view);
+        }
+
         for (String key : nameCount.keySet()) {
 
             View view = createViewFromMap(this, R.layout.static_item, recordLayout, key, nameCount.get(key));
@@ -191,131 +197,141 @@ public class StaticActivity extends AppCompatActivity {
     //设置饼图数据
     private void setData(Map<String, Integer> dataMap) {
 
-        List<PieEntry> yValues = new ArrayList<PieEntry>();
+        if (dataMap.size() != 0) {
 
-        for (String key : dataMap.keySet()) {
-            yValues.add(new PieEntry(dataMap.get(key), key));
+            List<PieEntry> yValues = new ArrayList<PieEntry>();
+
+            for (String key : dataMap.keySet()) {
+                yValues.add(new PieEntry(dataMap.get(key), key));
+            }
+
+            PieDataSet yDataSet = new PieDataSet(yValues, "");
+            yDataSet.setColors(new int[]{R.color.color0, R.color.color6, R.color.color5, R.color.color3, R.color.color2,
+                    R.color.color7, R.color.color1, R.color.color4}, getApplicationContext());
+
+            yDataSet.setSliceSpace(1f);
+            yDataSet.setSelectionShift(10f);
+
+            PieData data = new PieData(yDataSet);
+
+            data.setValueTextColor(getResources().getColor(R.color.colorText));
+            data.setValueTextSize(16f);
+            data.setValueFormatter(new PercentFormatter());
+
+            //设置基本视图属性
+            Description ds = typeChart.getDescription();
+            ds.setEnabled(false);
+
+            typeChart.setRotationAngle(30f);
+
+            typeChart.setUsePercentValues(true);
+
+            Legend typeLegend = typeChart.getLegend();
+            typeLegend.setEnabled(false);
+
+            typeChart.setData(data);
         }
 
-        PieDataSet yDataSet = new PieDataSet(yValues, "");
-        yDataSet.setColors(new int[] {R.color.color0, R.color.color6, R.color.color5, R.color.color3, R.color.color2,
-                R.color.color7, R.color.color1, R.color.color4}, getApplicationContext());
-
-        yDataSet.setSliceSpace(1f);
-        yDataSet.setSelectionShift(10f);
-
-        PieData data = new PieData(yDataSet);
-
-        data.setValueTextColor(getResources().getColor(R.color.colorText));
-        data.setValueTextSize(16f);
-        data.setValueFormatter(new PercentFormatter());
-
-        //设置基本视图属性
+        //设置无数据时的提示
         typeChart.setNoDataText("暂无数据");
         typeChart.setNoDataTextColor(getResources().getColor(R.color.colorText2));
 
-        Description ds = typeChart.getDescription();
-        ds.setEnabled(false);
-
-        typeChart.setRotationAngle(30f);
-
-        typeChart.setUsePercentValues(true);
-
-        Legend typeLegend = typeChart.getLegend();
-        typeLegend.setEnabled(false);
-
-        typeChart.setData(data);
         typeChart.invalidate();
     }
 
     //设置折线图数据
     private void setLineData(Map<Long, Integer> dataMap, int period) {
 
-        List<Entry> lineEntries = new ArrayList<Entry>();
-        float xi = 0f;
+        if (dataMap.size() != 0) {
 
-        final ArrayList<String> dates = new ArrayList<String>(); //用于存放日期，用于X轴显示
+            List<Entry> lineEntries = new ArrayList<Entry>();
+            float xi = 0f;
 
-        //X轴数值提取逻辑有问题，dates不会使用已更新的数据，切换时长时导致Index out of bound错误，
-        // 为解决这个问题，只好先把dates初始化size为90；
-        for (int i = 0; i < 90; i++) {
-            dates.add(Integer.toString(0));
-        }
+            final ArrayList<String> dates = new ArrayList<String>(); //用于存放日期，用于X轴显示
 
-        //把期间内每一天的数据获得并加入数据列表中，如果字典中没有，则为0
-        for (int i = period - 1; i >= 0; i--) {
-            Long date = Utility.getTodayCount() - i;
-            if (dataMap.containsKey(date)) {
-                lineEntries.add(new Entry(xi, dataMap.get(date)));
-            } else {
-                lineEntries.add(new Entry(xi, 0));
+            //X轴数值提取逻辑有问题，dates不会使用已更新的数据，切换时长时导致Index out of bound错误，
+            // 为解决这个问题，只好先把dates初始化size为90；
+            for (int i = 0; i < 90; i++) {
+                dates.add(Integer.toString(0));
             }
 
-            //在列表中加入当天的日期
-            Calendar theDay = Calendar.getInstance();
-            theDay.add(Calendar.DAY_OF_MONTH, (i * (-1)));
-            String dayOfMonth = Integer.toString(theDay.get(Calendar.DAY_OF_MONTH));
-            dates.set((int) xi, dayOfMonth);
+            //把期间内每一天的数据获得并加入数据列表中，如果字典中没有，则为0
+            for (int i = period - 1; i >= 0; i--) {
+                Long date = Utility.getTodayCount() - i;
+                if (dataMap.containsKey(date)) {
+                    lineEntries.add(new Entry(xi, dataMap.get(date)));
+                } else {
+                    lineEntries.add(new Entry(xi, 0));
+                }
 
-            xi = xi + 1;
+                //在列表中加入当天的日期
+                Calendar theDay = Calendar.getInstance();
+                theDay.add(Calendar.DAY_OF_MONTH, (i * (-1)));
+                String dayOfMonth = Integer.toString(theDay.get(Calendar.DAY_OF_MONTH));
+                dates.set((int) xi, dayOfMonth);
+
+                xi = xi + 1;
+            }
+
+            LineDataSet lineDataSet = new LineDataSet(lineEntries, "趋势数据");
+
+            lineDataSet.setColor(Color.parseColor("#ff8282"));
+            lineDataSet.setCircleColor(Color.parseColor("#ff8282"));
+            //        lineDataSet.setDrawValues(false);
+            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            lineDataSet.setHighlightEnabled(false);
+
+            LineData lineData = new LineData(lineDataSet);
+
+            DefaultValueFormatter dformatter = new DefaultValueFormatter(0);
+            lineData.setValueFormatter(dformatter);
+            lineData.setValueTextSize(12f);
+            lineData.setValueTextColor(Color.parseColor("#ff8282"));
+
+            progressChart.setData(lineData);
+
+            IAxisValueFormatter formatter = new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    return dates.get((int) value);
+                }
+            };
+
+            XAxis xAxis = progressChart.getXAxis();
+            xAxis.setGranularity(1f);
+            xAxis.setValueFormatter(formatter);
+
+            //设置基本视图属性
+            progressChart.setScaleEnabled(false);
+            progressChart.getAxisLeft().setEnabled(false);
+            progressChart.getAxisRight().setEnabled(false);
+            progressChart.enableScroll();
+            if (period == 7) {
+                progressChart.setVisibleXRangeMinimum(6f);
+                progressChart.setVisibleXRangeMaximum(7f);
+            } else if (period == 30) {
+                progressChart.setVisibleXRangeMinimum(14f);
+                progressChart.setVisibleXRangeMaximum(14f);
+            } else if (period == 90) {
+                progressChart.setVisibleXRangeMinimum(14f);
+                progressChart.setVisibleXRangeMaximum(14f);
+            }
+            progressChart.moveViewToX(xi);
+            XAxis xAxis1 = progressChart.getXAxis();
+            xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis1.setDrawAxisLine(false);
+            xAxis1.setTextColor(getResources().getColor(R.color.colorText2));
+
+            Legend legend = progressChart.getLegend();
+            legend.setEnabled(false);
+            Description ds = progressChart.getDescription();
+            ds.setEnabled(false);
+
         }
 
-        LineDataSet lineDataSet = new LineDataSet(lineEntries, "趋势数据");
-
-        lineDataSet.setColor(Color.parseColor("#ff8282"));
-        lineDataSet.setCircleColor(Color.parseColor("#ff8282"));
-//        lineDataSet.setDrawValues(false);
-        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        lineDataSet.setHighlightEnabled(false);
-
-        LineData lineData = new LineData(lineDataSet);
-
-        DefaultValueFormatter dformatter = new DefaultValueFormatter(0);
-        lineData.setValueFormatter(dformatter);
-        lineData.setValueTextSize(12f);
-        lineData.setValueTextColor(Color.parseColor("#ff8282"));
-
-        progressChart.setData(lineData);
-
-        IAxisValueFormatter formatter = new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return dates.get((int) value);
-            }
-        };
-
-        XAxis xAxis = progressChart.getXAxis();
-        xAxis.setGranularity(1f);
-        xAxis.setValueFormatter(formatter);
-
-        //设置基本视图属性
+        //设置无数据时的提示
         progressChart.setNoDataText("暂无数据");
         progressChart.setNoDataTextColor(getResources().getColor(R.color.colorText2));
-        progressChart.setScaleEnabled(false);
-        progressChart.getAxisLeft().setEnabled(false);
-        progressChart.getAxisRight().setEnabled(false);
-        progressChart.enableScroll();
-        if (period == 7) {
-            progressChart.setVisibleXRangeMinimum(6f);
-            progressChart.setVisibleXRangeMaximum(7f);
-        } else if (period == 30) {
-            progressChart.setVisibleXRangeMinimum(14f);
-            progressChart.setVisibleXRangeMaximum(14f);
-        } else if (period == 90) {
-            progressChart.setVisibleXRangeMinimum(14f);
-            progressChart.setVisibleXRangeMaximum(14f);
-        }
-        progressChart.moveViewToX(xi);
-        XAxis xAxis1 = progressChart.getXAxis();
-        xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis1.setDrawAxisLine(false);
-        xAxis1.setTextColor(getResources().getColor(R.color.colorText2));
-
-        Legend legend = progressChart.getLegend();
-        legend.setEnabled(false);
-        Description ds = progressChart.getDescription();
-        ds.setEnabled(false);
-
 
         progressChart.invalidate();
     }
