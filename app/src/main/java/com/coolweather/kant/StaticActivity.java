@@ -209,8 +209,8 @@ public class StaticActivity extends AppCompatActivity {
         data.setValueFormatter(new PercentFormatter());
 
         //设置基本视图属性
-        typeChart.setNoDataText("抱歉，好像没有数据呢！");
-        typeChart.setNoDataTextColor(R.color.colorText2);
+        typeChart.setNoDataText("暂无数据");
+        typeChart.setNoDataTextColor(getResources().getColor(R.color.colorText2));
 
         Description ds = typeChart.getDescription();
         ds.setEnabled(false);
@@ -274,6 +274,20 @@ public class StaticActivity extends AppCompatActivity {
         XAxis xAxis = progressChart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setValueFormatter(formatter);
+
+        //设置基本视图属性
+        progressChart.setNoDataText("暂无数据");
+        progressChart.setNoDataTextColor(getResources().getColor(R.color.colorText2));
+        progressChart.setScaleEnabled(false);
+        progressChart.getAxisLeft().setEnabled(false);
+        progressChart.getAxisRight().setEnabled(false);
+        XAxis xAxis1 = progressChart.getXAxis();
+        xAxis1.setPosition(XAxis.XAxisPosition.BOTTOM);
+        Legend legend = progressChart.getLegend();
+        legend.setEnabled(false);
+        Description ds = progressChart.getDescription();
+        ds.setEnabled(false);
+
 
         progressChart.invalidate();
     }
