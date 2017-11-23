@@ -259,19 +259,30 @@ public class MainActivity extends AppCompatActivity {
 
                     //更新事项数据与界面
                     Dao dao = (DataSupport.where("name = ?", daoName).find(Dao.class)).get(0);
-                    dao.setRecent(Utility.getTodayCount());
-                    int newCount = count + 1;
-                    dao.setCount(newCount);
-
-                    if (dao.save()) {
-                        //给出提示
-                        Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
+                    int fre = dao.getFrequency();
+                    //如果是单次事项，直接删除
+                    if (fre == 0) {
+                        dao.delete();
                         //刷新界面
                         refreshHoldList();
                         refreshNowList();
                     } else {
-                        Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
+                        //如果是多次事项，更新数据
+                        dao.setRecent(Utility.getTodayCount());
+                        int newCount = count + 1;
+                        dao.setCount(newCount);
+
+                        if (dao.save()) {
+                            //给出提示
+                            Toast.makeText(MainActivity.this, buttonView.getText().toString() + "已完成", Toast.LENGTH_SHORT).show();
+                            //刷新界面
+                            refreshHoldList();
+                            refreshNowList();
+                        } else {
+                            Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
+                        }
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(MainActivity.this, "啊，未知异常！", Toast.LENGTH_SHORT).show();
