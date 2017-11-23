@@ -97,8 +97,9 @@ public class Utility {
 
         long milSecondPerDay = 24 * 60 * 60 * 1000;
 
+        long eightHours = 8 * 60 * 60 * 1000;   //一个临时的丑陋的方法，解决手机上应用时间慢8小时的问题
         java.util.Date dateNow = new java.util.Date();
-        long count = (dateNow.getTime()/milSecondPerDay);
+        long count = ((dateNow.getTime() + eightHours)/milSecondPerDay);
         return count;
 
     }
