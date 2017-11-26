@@ -298,6 +298,8 @@ public class StaticActivity extends AppCompatActivity {
                 }
             };
 
+            Log.d("datas end", dates.toString());
+
             XAxis xAxis = progressChart.getXAxis();
             xAxis.setGranularity(1f);
             xAxis.setValueFormatter(formatter);
