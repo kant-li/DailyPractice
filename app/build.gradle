@@ -7,8 +7,8 @@ android {
         applicationId "com.coolweather.kant"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 101
-        versionName "beta 1.0"
+        versionCode 102
+        versionName "beta 1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
